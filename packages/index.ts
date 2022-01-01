@@ -10,7 +10,8 @@ import calendar from './calendar'
 
 import './styles/base.scss'
 import './styles/ui.scss'
-
+import * as Icons from '@element-plus/icons'
+import { toLine } from './util'
 const components = [
   chooseArea,
   chooseIcon,
@@ -24,6 +25,10 @@ const components = [
 
 export default {
   install (app:App) {
+    for (const i in Icons) {
+      // 注册全部组件
+      app.component(`el-icon-${toLine(i)}`, (Icons as any)[i])
+    }
     components.map(item => {
       app.use(item)
     })

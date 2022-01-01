@@ -1,0 +1,15 @@
+{
+  "name": "ks-vue3-components",
+  "version": "0.0.1",
+  "main": "index.umd.js",
+  "module": "index.es.js",
+  "types": "index.d.ts",
+  "author": {
+    "name": "krasus1966"
+  },
+  "keywords": [
+    "element-plus",
+    "ts",
+    "封装组件"
+  ]
+}
