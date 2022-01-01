@@ -6,5 +6,6 @@ export default defineConfig({
   plugins: [vue(), vueJsx()],
   server: {
     port: 8090
-  }
+  },
+  base: '/ks-components-page/'
 })
