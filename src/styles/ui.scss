@@ -1,0 +1,23 @@
+// 修改组件库内部样式
+// 1. 需要自定义一个类名空间
+// 2. 先在浏览器调试样式
+// 3. 把调试好的类名放在此类名里面
+// 4. 在App.vue里引入此文件
+// 5. 在组件内需要修改样式的元素的父元素加上这个类名
+.choose-icon-dialog-body-height{
+  .el-dialog__body{
+    height: 500px;
+    overflow: scroll;
+  }
+}
+
+.list-tabs__item{
+  .el-tabs__nav{
+    width: 100%;
+    display: flex;
+  }
+  .el-tabs__item {
+    flex:1;
+    text-align: center;
+  }
+}
