@@ -1,0 +1,5 @@
+import{e as d,g as o,r as i,c as v,o as p}from"./vendor.ed2c8c46.js";const _=d({setup(E){const u=o([{title:"\u5317\u6C7D\u6E05\u7406\u79EF\u5206",start:"2021-12-31 23:50:50",end:"2021-12-31 23:59:59",editable:!0},{title:"\u5199\u4EE3\u7801",start:"2022-01-01 23:50:50",end:"2022-01-01 23:59:59",editable:!0}]),r=e=>{u.value.push({start:e.dateStr+" 12:00",end:e.dateStr+" 18:00",title:"\u5B66\u4E60"})},a=e=>{u.value.push({start:e.dateStr+" 12:00",end:e.dateStr+" 18:00",title:"\u5B66\u4E60"})},s=e=>{const n=document.createElement("div"),t=e.timeText.split("-"),c=t[0].replace("\u4E0A\u5348","").replace("\u4E0B\u5348","").replace("\u65F6",""),l=t[1].replace("\u4E0A\u5348","").replace("\u4E0B\u5348","").replace("\u65F6","");return n.innerHTML=`
+          <div>\u5F00\u59CB\u65F6\u95F4: ${c}</div>
+          <div>\u7ED3\u675F\u65F6\u95F4: ${l}</div>
+          <div>\u6807\u9898: ${e.event._def.title}</div>
+        `,{domNodes:[n]}};return(e,n)=>{const t=i("ks-calendar");return p(),v(t,{events:u.value,onDateClick:r,onEventClick:a,displayEventEnd:!0,eventContent:s},null,8,["events"])}}});export{_ as default};

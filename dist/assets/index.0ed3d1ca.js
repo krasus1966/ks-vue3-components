@@ -1,0 +1,1 @@
+import{e as c,r as s,c as a,o as r}from"./vendor.ed2c8c46.js";const l=c({setup(t){const o=e=>{console.log(e)};return(e,_)=>{const n=s("ks-choose-area");return r(),a(n,{onChange:o})}}});export{l as default};

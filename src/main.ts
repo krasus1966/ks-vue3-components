@@ -6,10 +6,6 @@ import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons'
 import { toLine } from './util'
 import BaseComponent from './components'
-// import BaseComponent from '../lib/ks-element-components.es'
-// import '../lib/style.css'
-// import chooseIcon from '../lib/chooseIcon/index.es'
-// import '../lib/chooseIcon/style.css'
 const app = createApp(App)
 
 // 全局注册图标

@@ -1,0 +1,1 @@
+import{e as n,g as a,r as c,c as i,w as u,o as r,d as l}from"./vendor.ed2c8c46.js";const _=l(" \u9009\u62E9\u56FE\u6807 "),f=n({setup(p){const e=a(!1);return(d,o)=>{const s=c("ks-choose-icon");return r(),i(s,{title:"\u9009\u62E9\u56FE\u6807",visible:e.value,"onUpdate:visible":o[0]||(o[0]=t=>e.value=t)},{default:u(()=>[_]),_:1},8,["visible"])}}});export{f as default};
