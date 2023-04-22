@@ -1,20 +1,22 @@
-import { App } from 'vue'
 import chooseIcon from './chooseIcon'
 import chooseArea from './chooseArea'
+import chooseDate from './chooseDate'
+import chooseTime from './chooseTime'
 import notification from './notification'
 import kList from './list'
 import trend from './trend'
 import kMenu from './menu'
 import progress from './progress'
 import calendar from './calendar'
-
 import './styles/base.scss'
 import './styles/ui.scss'
-import * as Icons from '@element-plus/icons'
-import { toLine } from './util'
+import { App } from 'vue'
+
 const components = [
   chooseArea,
   chooseIcon,
+  chooseDate,
+  chooseTime,
   trend,
   notification,
   kList,
@@ -23,14 +25,26 @@ const components = [
   calendar
 ]
 
+const install = (app:App) => {
+  components.map(item => {
+    app.use(item)
+  })
+}
+
+export {
+  install,
+  chooseArea,
+  chooseIcon,
+  chooseDate,
+  chooseTime,
+  trend,
+  notification,
+  kList,
+  kMenu,
+  progress,
+  calendar
+}
+
 export default {
-  install (app:App) {
-    for (const i in Icons) {
-      // 注册全部组件
-      app.component(`el-icon-${toLine(i)}`, (Icons as any)[i])
-    }
-    components.map(item => {
-      app.use(item)
-    })
-  }
+  install
 }

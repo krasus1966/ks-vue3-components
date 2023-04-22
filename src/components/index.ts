@@ -23,10 +23,26 @@ const components = [
   calendar
 ]
 
+const install = (app:App) => {
+  components.map(item => {
+    app.use(item)
+  })
+}
+
+export {
+  install,
+  chooseArea,
+  chooseIcon,
+  chooseDate,
+  chooseTime,
+  trend,
+  notification,
+  kList,
+  kMenu,
+  progress,
+  calendar
+}
+
 export default {
-  install (app:App) {
-    components.map(item => {
-      app.use(item)
-    })
-  }
+  install
 }

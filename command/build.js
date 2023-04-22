@@ -8,7 +8,7 @@ const fs = require('fs')
 // 打包入口文件夹
 const entryDir = path.resolve(__dirname, '../packages')
 // 出口文件夹
-const outDir = path.resolve(__dirname, '../lib')
+const outputDir = path.resolve(__dirname, '../lib')
 
 // vite基础配置
 const baseConfig = defineConfig({
@@ -35,11 +35,11 @@ const buildAll = async () => {
       rollupOptions,
       lib: {
         entry: path.resolve(entryDir, 'index.ts'),
-        name: 'index',
-        fileName: 'index',
+        name: 'ks-components',
+        fileName: 'ks-components',
         formats: ['es', 'umd']
       },
-      outDir
+      outDir: outputDir
     }
   })
 }
@@ -52,12 +52,12 @@ const buildSingle = async (name) => {
     build: {
       rollupOptions,
       lib: {
-        entry: path.resolve(entryDir, name),
+        entry: path.resolve(entryDir + `/${name}/index.ts`),
         name: 'index',
         fileName: 'index',
         formats: ['es', 'umd']
       },
-      outDir: path.resolve(outDir, name)
+      outDir: path.resolve(outputDir, name)
     }
   })
 }
@@ -74,7 +74,7 @@ const createPackageJson = (name) => {
   }
   `
   fsExtra.outputFile(
-    path.resolve(outDir, `${name}/package.json`),
+    path.resolve(outputDir, `/${name}/package.json`),
     fileStr,
     'utf-8'
   )
