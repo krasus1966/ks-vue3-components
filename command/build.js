@@ -27,8 +27,6 @@ const rollupOptions = {
   }
 }
 
-const config = []
-
 // 全量打包
 const buildAll = async () => {
   await build({
@@ -86,16 +84,16 @@ const createPackageJson = (name) => {
 const buildLib = async () => {
   await buildAll()
   // 获取组件名称组成的数组
-  // const components = fs.readdirSync(entryDir).filter(name => {
-  //   const componentDir = path.resolve(entryDir, name)
-  //   const isDir = fs.lstatSync(componentDir).isDirectory()
-  //   return isDir && fs.readdirSync(componentDir).includes('index.ts') && name !== 'util'
-  // })
-  //
-  // for (const name of components) {
-  //   await buildSingle(name)
-  //   createPackageJson(name)
-  // }
+  const components = fs.readdirSync(entryDir).filter(name => {
+    const componentDir = path.resolve(entryDir, name)
+    const isDir = fs.lstatSync(componentDir).isDirectory()
+    return isDir && fs.readdirSync(componentDir).includes('index.ts') && name !== 'util'
+  })
+
+  for (const name of components) {
+    await buildSingle(name)
+    createPackageJson(name)
+  }
 }
 
 buildLib()

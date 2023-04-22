@@ -1,5 +1,7 @@
 import chooseIcon from './chooseIcon'
 import chooseArea from './chooseArea'
+import chooseDate from './chooseDate'
+import chooseTime from './chooseTime'
 import notification from './notification'
 import kList from './list'
 import trend from './trend'
@@ -11,6 +13,8 @@ import { App } from 'vue'
 const components = [
   chooseArea,
   chooseIcon,
+  chooseDate,
+  chooseTime,
   trend,
   notification,
   kList,
