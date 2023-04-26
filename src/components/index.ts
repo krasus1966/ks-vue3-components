@@ -2,6 +2,7 @@ import chooseIcon from './chooseIcon'
 import chooseArea from './chooseArea'
 import chooseDate from './chooseDate'
 import chooseTime from './chooseTime'
+import chooseCity from './chooseCity'
 import notification from './notification'
 import kList from './list'
 import trend from './trend'
@@ -15,6 +16,7 @@ const components = [
   chooseIcon,
   chooseDate,
   chooseTime,
+  chooseCity,
   trend,
   notification,
   kList,
@@ -35,6 +37,7 @@ export {
   chooseIcon,
   chooseDate,
   chooseTime,
+  chooseCity,
   trend,
   notification,
   kList,

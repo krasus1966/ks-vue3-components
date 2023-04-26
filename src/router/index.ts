@@ -20,6 +20,9 @@ const routes: RouteRecordRaw[] = [
         path: '/chooseTime',
         component: () => import('../views/chooseTime/index.vue')
       }, {
+        path: '/chooseCity',
+        component: () => import('../views/chooseCity/index.vue')
+      }, {
         path: '/trend',
         component: () => import('../views/trend/index.vue')
       }, {
