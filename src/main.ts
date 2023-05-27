@@ -6,6 +6,7 @@ import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons'
 import { toLine } from './util'
 import BaseComponent from './components'
+
 const app = createApp(App)
 
 // 全局注册图标

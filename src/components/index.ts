@@ -7,6 +7,7 @@ import notification from './notification'
 import kList from './list'
 import trend from './trend'
 import kMenu from './menu'
+import preview from './preview'
 import progress from './progress'
 import calendar from './calendar'
 import { App } from 'vue'
@@ -21,6 +22,7 @@ const components = [
   notification,
   kList,
   kMenu,
+  preview,
   progress,
   calendar
 ]
@@ -42,6 +44,7 @@ export {
   notification,
   kList,
   kMenu,
+  preview,
   progress,
   calendar
 }

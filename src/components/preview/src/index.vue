@@ -1,45 +1,12 @@
 <template>
-  <el-progress v-bind="$attrs" :percentage="percentageNum"></el-progress>
+    <component :is="`ks-preview-${type}`" :url="url"></component>
 </template>
 
 <script lang="ts" setup>
-import { defineProps, onMounted, ref } from 'vue'
+import { ref } from 'vue'
+const url = ref('/resource/file/download/6457604d77862e60b032af19')
 
-const props = defineProps({
-  // 进度
-  percentage: {
-    type: Number,
-    default: 0
-  },
-  // 进度条是否有动画效果
-  isAnimation: {
-    type: Boolean,
-    default: false
-  },
-  // 动画时长(毫秒)
-  time: {
-    type: Number,
-    default: 3000
-  }
-})
-
-const percentageNum = ref(0)
-
-onMounted(() => {
-  if (props.isAnimation) {
-    // 规定时间内加载完成
-    const time = Math.ceil(props.time / props.percentage)
-    const timer = setInterval(() => {
-      percentageNum.value += 1
-      if (percentageNum.value >= props.percentage) {
-        percentageNum.value = props.percentage
-        clearInterval(timer)
-      }
-    }, time)
-  } else {
-    percentageNum.value = props.percentage
-  }
-})
+const type = ref('pdf-js')
 </script>
 
 <style lang="scss" scoped>

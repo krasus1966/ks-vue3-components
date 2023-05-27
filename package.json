@@ -15,9 +15,12 @@
     "@fullcalendar/daygrid": "^5.10.1",
     "@fullcalendar/interaction": "^5.10.1",
     "@typescript-eslint/parser": "^5.7.0",
-    "element-plus": "^1.2.0-beta.6",
+    "element-plus": "2.0.6",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.12"
+    "vue-pdf-embed": "^1.1.6",
+    "vue-router": "^4.0.12",
+    "vue3-pdfjs": "^0.1.6",
+    "pdfjs-dist": "^2.10.377"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.0",

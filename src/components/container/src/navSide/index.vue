@@ -56,6 +56,10 @@ const data = [
     name: '表格',
     index: '/table',
     icon: 'ShoppingBag'
+  }, {
+    name: '文件预览',
+    index: '/preview',
+    icon: 'ShoppingBag'
   }
 ]
 </script>
