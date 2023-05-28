@@ -1,3 +1,4 @@
+import { App } from 'vue'
 import chooseIcon from './chooseIcon'
 import chooseArea from './chooseArea'
 import chooseDate from './chooseDate'
@@ -10,7 +11,11 @@ import kMenu from './menu'
 import preview from './preview'
 import progress from './progress'
 import calendar from './calendar'
-import { App } from 'vue'
+import container from './container'
+import svgIcon from './svgIcon'
+
+import '../styles/base.scss'
+import '../styles/ui.scss'
 
 const components = [
   chooseArea,
@@ -24,7 +29,9 @@ const components = [
   kMenu,
   preview,
   progress,
-  calendar
+  calendar,
+  svgIcon,
+  container
 ]
 
 const install = (app:App) => {
@@ -46,7 +53,9 @@ export {
   kMenu,
   preview,
   progress,
-  calendar
+  calendar,
+  svgIcon,
+  container
 }
 
 export default {

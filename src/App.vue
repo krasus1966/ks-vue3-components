@@ -7,8 +7,8 @@
 </script>
 
 <style lang="scss">
-@import './styles/base';
-@import './styles/ui';
+//@import './styles/base';
+//@import './styles/ui';
 .notification-popper-class {
   padding: 0 !important;
 }

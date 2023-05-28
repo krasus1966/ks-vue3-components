@@ -5,16 +5,24 @@
       <div v-else>{{ text }}</div>
     </div>
     <div class="icon">
-      <component
-          :is="`el-icon-${toLine(upIcon)}`"
+      <ks-svg-icon
+          :icon="upIcon"
           :style="{color: !reverseColor ? upIconColor : '#52c41a' }"
-          v-if="type === 'up'">
-      </component>
-      <component
-          :is="`el-icon-${toLine(downIcon)}`"
+          v-if="type === 'up'"/>
+      <ks-svg-icon
+          :icon="downIcon"
           :style="{color: !reverseColor ? downIconColor : '#f5222d' }"
-          v-else>
-      </component>
+          v-else/>
+<!--      <component-->
+<!--          :is="`el-icon-${toLine(upIcon)}`"-->
+<!--          :style="{color: !reverseColor ? upIconColor : '#52c41a' }"-->
+<!--          v-if="type === 'up'">-->
+<!--      </component>-->
+<!--      <component-->
+<!--          :is="`el-icon-${toLine(downIcon)}`"-->
+<!--          :style="{color: !reverseColor ? downIconColor : '#f5222d' }"-->
+<!--          v-else>-->
+<!--      </component>-->
     </div>
   </div>
 </template>

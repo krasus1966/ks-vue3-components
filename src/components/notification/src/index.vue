@@ -10,7 +10,8 @@
     </template>
     <template #reference>
       <el-badge :value="value" :max="max" :is-dot="isDot" style="cursor: pointer">
-        <component :is="`el-icon-${toLine(icon)}`"></component>
+<!--        <component :is="`el-icon-${toLine(icon)}`"></component>-->
+        <ks-svg-icon :icon="icon"/>
       </el-badge>
     </template>
   </el-popover>

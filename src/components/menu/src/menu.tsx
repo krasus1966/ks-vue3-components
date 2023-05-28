@@ -46,11 +46,12 @@ export default defineComponent({
     const renderMenu = (data: any[]) => {
       return data.map((item: any) => {
         // 每个菜单的图标
-        item.i = (Icons as any)[item[props.icon]!]
+        // item.i = (Icons as any)[item[props.icon]!]
         const slots = {
           title: () => {
             return <>
-              <item.i class="menu-icon-svg"/>
+              <ks-svg-icon icon={item[props.icon]}/>
+              {/*<item.i/>*/}
               <span>{item[props.name]}</span>
             </>
           }
@@ -64,7 +65,8 @@ export default defineComponent({
         }
         return (
           <el-menu-item index={item[props.index]}>
-            <item.i class="menu-icon-svg"/>
+            <ks-svg-icon icon={item[props.icon]}/>
+            {/*<item.i/>*/}
             <span>{item[props.name]}</span>
           </el-menu-item>
         )

@@ -30,7 +30,8 @@
                 :key="index"
                 @click="clickAction(action,index)">
               <div class="a-icon" v-if="action.icon">
-                <component :is="`el-icon-${toLine(action.icon)}`"></component>
+                <ks-svg-icon :icon="action.icon"/>
+<!--                <component :is="`el-icon-${toLine(action.icon)}`"></component>-->
               </div>
               <div class="a-text">
                 {{ action.text }}

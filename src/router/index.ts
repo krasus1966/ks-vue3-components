@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
-import Container from '../components/container/src/Index.vue'
+import Layout from '.././layout/index.vue'
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: Container,
+    component: Layout,
     children: [
       {
         path: '/',
@@ -40,6 +40,9 @@ const routes: RouteRecordRaw[] = [
       }, {
         path: '/preview',
         component: () => import('../views/preview/index.vue')
+      }, {
+        path: '/icon',
+        component: () => import('../views/svgIcon/index.vue')
       }
     ]
   }

@@ -1,5 +1,5 @@
 <template>
-  <el-button @click="handleClick">
+  <el-button @click="handleClick" :type="buttonType">
     <slot></slot>
   </el-button>
   <div class="choose-icon-dialog-body-height">
@@ -14,7 +14,8 @@
             @click="clickItem(item)"
         >
           <div>
-            <component :is="`el-icon-${toLine(item)}`"></component>
+            <ks-svg-icon :icon="item" :iconStyle="`width: 2em;height: 2em`"/>
+<!--            <component :is="`el-icon-${toLine(item)}`"></component>-->
           </div>
           <div class="icon">{{ item }}</div>
         </div>
@@ -33,7 +34,9 @@ const props = defineProps<{
   // 弹出框的标题
   title: string,
   // 控制弹出框的显示与隐藏
-  visible: boolean
+  visible: boolean,
+  // 按钮类型
+  buttonType: string
 }>()
 
 const emits = defineEmits(['update:visible'])
@@ -80,6 +83,10 @@ watch(() => dialogVisible.value, val => {
   margin-bottom: 20px;
   cursor: pointer;
   height: 70px;
+}
+
+.text {
+  font-size: 14px;
 }
 
 .icon {

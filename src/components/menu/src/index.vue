@@ -8,7 +8,8 @@
       <el-menu-item
           v-if="!item[children] || !item[children].length"
           :index="item[index]">
-        <component :is="`el-icon-${toLine(item[icon])}`" class="menu-icon-svg"></component>
+        <ks-svg-icon :icon="item[icon]"/>
+<!--        <component :is="`el-icon-${toLine(item[icon])}`"></component>-->
         <span>{{ item[name] }}</span>
       </el-menu-item>
 
@@ -16,14 +17,16 @@
           v-if="item[children] && item[children].length"
           :index="item[index]">
         <template #title>
-          <component :is="`el-icon-${toLine(item[icon])}`" class="menu-icon-svg"></component>
+          <ks-svg-icon :icon="item[icon]"/>
+<!--          <component :is="`el-icon-${toLine(item[icon])}`"></component>-->
           <span>{{ item[name] }}</span>
         </template>
         <el-menu-item
             v-for="(child,index1) in item[children]"
             :key="index1"
             :index="child[index]">
-          <component :is="`el-icon-${toLine(child[icon])}`" class="menu-icon-svg"></component>
+          <ks-svg-icon :icon="child[icon]"/>
+<!--          <component :is="`el-icon-${toLine(child[icon])}`"></component>-->
           <span>{{ child[name] }}</span>
         </el-menu-item>
       </el-sub-menu>
@@ -77,7 +80,11 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-@import "style/index";
+svg {
+  margin-right: 4px;
+  width:1em;
+  height: 1em;
+}
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;

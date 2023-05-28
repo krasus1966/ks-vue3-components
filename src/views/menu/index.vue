@@ -1,9 +1,9 @@
 <template>
-  <ks-menu
-      :data="data1"
-      style="width: 200px"
-      defaultActive="2"
-      :router="false"/>
+<!--  <ks-menu-->
+<!--      :data="data1"-->
+<!--      style="width: 200px"-->
+<!--      defaultActive="2"-->
+<!--      :router="false"/>-->
 
   <ks-infinite-menu
       :data="data2"
@@ -30,7 +30,14 @@ const data1 = [
       {
         name: '导航3-1',
         index: '3-1',
-        icon: 'Document'
+        icon: 'Document',
+        children: [
+          {
+            name: '导航4-1',
+            index: '4-1',
+            icon: 'Document'
+          }
+        ]
       }
     ]
   }
