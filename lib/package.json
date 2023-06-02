@@ -1,6 +1,6 @@
 {
   "name": "ks-vue3-component",
-  "version": "0.0.1-alpha-1",
+  "version": "0.0.2-alpha",
   "main": "ks-components.umd.js",
   "module": "ks-components.es.js",
   "types": "index.d.ts",

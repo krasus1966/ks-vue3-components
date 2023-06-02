@@ -7,6 +7,7 @@ import chooseCity from './chooseCity'
 import notification from './notification'
 import kList from './list'
 import trend from './trend'
+import table from './table'
 import kMenu from './menu'
 import preview from './preview'
 import progress from './progress'
@@ -30,6 +31,7 @@ const components = [
   preview,
   progress,
   calendar,
+  table,
   svgIcon,
   container
 ]
@@ -51,6 +53,7 @@ export {
   notification,
   kList,
   kMenu,
+  table,
   preview,
   progress,
   calendar,

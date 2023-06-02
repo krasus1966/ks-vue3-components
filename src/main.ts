@@ -5,9 +5,9 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons'
 import { toLine } from './util'
-// import BaseComponent from './components'
-import BaseComponent from '../lib'
-import '../lib/style.css'
+import BaseComponent from './components'
+// import BaseComponent from '../lib'
+// import '../lib/style.css'
 
 const app = createApp(App)
 

@@ -43,6 +43,9 @@ const routes: RouteRecordRaw[] = [
       }, {
         path: '/icon',
         component: () => import('../views/svgIcon/index.vue')
+      }, {
+        path: '/table',
+        component: () => import('../views/table/index.vue')
       }
     ]
   }
