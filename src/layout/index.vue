@@ -63,6 +63,66 @@ const data = [
     name: 'icon',
     index: '/icon',
     icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
+  }, {
+    name: 'icon',
+    index: '/icon',
+    icon: 'ShoppingBag'
   }
 ]
 </script>
