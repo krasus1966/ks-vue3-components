@@ -7,6 +7,7 @@
       :tableConfig="tableConfig"
       :pageConfig="pageConfig"
       :load="loadConfig"
+      :searchConfig="searchOption"
   >
     <!--
         自定义插槽 参数：scope(作为表头插槽时：column, $index, 作为单元格插槽时：row, column, $index), prop, label，
@@ -47,6 +48,7 @@ import {ElTable} from "element-plus";
 import {LoadConfig} from "../../components/table/src/load";
 import {PageConfig} from "../../components/table/src/pagination";
 import axios from "axios";
+import {SearchOption} from "../../components/table/src/search-config";
 const tableData = ref<any[]>([])
 const total = ref<number>(0)
 const currentPage = ref<number>(1)
@@ -97,7 +99,7 @@ const tableConfig = {
 // 分页配置
 const pageConfig : PageConfig = {
   disabled: false,
-  direction: 'row',
+  position: 'right',
   layout: 'total,sizes,prev,pager,next,jumper',
   total: total,
   currentPage:currentPage,
@@ -121,6 +123,111 @@ const pageConfig : PageConfig = {
     nextClick: (value: number) => {
       console.log('nextClick',value)
     },
+  }
+}
+// 搜索框设置
+const searchOption : SearchOption = {
+  isSearch: true,
+  options: [
+    {
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },{
+      label: '姓名',
+      prop: 'name',
+      type: 'input',
+      placeholder: '请输入姓名'
+    },
+  ],
+  action: {
+    submit: ()=> {
+      console.log('submit search')
+    },
+    reset: ()=> {
+      console.log('reset search')
+    }
   }
 }
 // 加载框配置

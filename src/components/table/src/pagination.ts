@@ -7,7 +7,7 @@ export interface PageConfig {
   pageSize: Ref<number>
   layout?: string
   pageSizes?: number[]
-  direction?: 'row'|'row-reverse'
+  position?: 'left' | 'center' | 'right'
   actions?:{
     sizeChange?: (value: number) => void
     currentChange?: (value: number) => void

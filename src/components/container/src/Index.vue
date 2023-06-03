@@ -3,13 +3,15 @@
     <el-aside width="auto">
       <nav-side :collapse="collapse" :data="data"></nav-side>
     </el-aside>
-    <el-container style="height: calc(100vh - 70px)">
+    <el-container>
       <el-header>
         <nav-header v-model:collapse="collapse"></nav-header>
       </el-header>
-      <el-scrollbar>
+      <el-scrollbar style="padding-left: 15px">
         <el-main>
-          <router-view></router-view>
+          <el-scrollbar>
+            <router-view/>
+          </el-scrollbar>
         </el-main>
       </el-scrollbar>
     </el-container>
