@@ -8,6 +8,7 @@ import { toLine } from './util'
 import BaseComponent from './components'
 // import BaseComponent from '../lib'
 // import '../lib/style.css'
+import './mock'
 
 const app = createApp(App)
 

@@ -11,6 +11,8 @@ export interface TableOptions {
   showOverflowTooltip?: boolean,
   // 宽度
   width?: string | number,
+  // 最小宽度，会平分，不是真的最小
+  minWidth?: string | number,
   // 对齐方式
   align?: 'left' | 'center' | 'right',
   // 单元格插槽

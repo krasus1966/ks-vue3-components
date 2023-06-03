@@ -1,24 +1,21 @@
 <template>
   <ks-table
       ref="singleTableRef"
-      :data="tableData2"
-      :options="options2"
+      :data="tableData"
+      :options="options"
       :action-option="actionOption"
       :tableConfig="tableConfig"
+      :pageConfig="pageConfig"
       :load="loadConfig"
-      :loading="loading"
   >
-
     <!--
         自定义插槽 参数：scope(作为表头插槽时：column, $index, 作为单元格插槽时：row, column, $index), prop, label，
         需要注意，表头插槽乱改可能会导致页面崩溃
     -->
     <template #header="{scope,label,prop}">
-      <el-input v-model="search" size="small" placeholder="Type to search"/>
     </template>
 
     <template #date="{scope,label,prop}">
-      <span>{{ dateformat(scope, label, prop) }}</span>
     </template>
 
     <!--  以下为固定插槽，自定义表头和单元格插槽命名就不能是下边这几个了  -->
@@ -29,10 +26,10 @@
     </template>
     <!--  append 为表格最后一列插槽 官网说无限滚动组件可能用到这个插槽  -->
     <template #append>
-      <div style="margin-top: 20px">
-        <el-button @click="setCurrent(tableData[1])">Select second row</el-button>
-        <el-button @click="setCurrent()">Clear selection</el-button>
-      </div>
+<!--      <div style="margin-top: 20px">-->
+<!--        <el-button @click="setCurrent(tableData[1])">Select second row</el-button>-->
+<!--        <el-button @click="setCurrent()">Clear selection</el-button>-->
+<!--      </div>-->
     </template>
     <!--  无数据时插槽  -->
     <template #empty>
@@ -45,21 +42,35 @@
 
 <script lang="ts" setup>
 
-import {computed, provide, ref} from "vue";
+import {computed, onMounted, provide, reactive, ref} from "vue";
 import {ElTable} from "element-plus";
+import {LoadConfig} from "../../components/table/src/load";
+import {PageConfig} from "../../components/table/src/pagination";
+import axios from "axios";
+const tableData = ref<any[]>([])
+const total = ref<number>(0)
+const currentPage = ref<number>(1)
+const pageSize = ref<number>(10)
+const singleTableRef = ref()
+const loading = ref<boolean>(false)
 
-// 计算加载框是否显示
-const loading = computed(() => {
-  return !tableData2.value
+onMounted(()=>{
+  getData()
 })
-const search = ref('')
-const filterTableData = computed(() =>
-    tableData.filter(
-        (data: { name: string; }) =>
-            !search.value ||
-            data.name.toLowerCase().includes(search.value.toLowerCase())
-    )
-)
+
+const getData = ()=>{
+  loading.value = true
+  axios.post('/api/list',{
+    current: currentPage.value - 1,
+    pageSize: pageSize.value
+  }).then((res:any)=>{
+    console.log('res',res.data.data)
+    tableData.value = res.data.data.rows
+    total.value = res.data.data.total
+    loading.value = false
+  })
+}
+
 const edit = (scope: any) => {
   console.log("scope", scope)
 }
@@ -79,79 +90,67 @@ const tableConfig = {
   height: '100%',
   maxHeight: '100%',
   highlightCurrentRow: true,
+  tableLayout: 'auto',
   currentChange: (currentRow: any, oldCurrentRow: any) => handleCurrentChange(currentRow, oldCurrentRow),
   rowStyle: ({row, rowIndex}: { row: any, rowIndex: number }) => tableRowStyle({row, rowIndex})
 }
-// 加载框配置
-const loadConfig = {
-  fullscreen: true,
-  text: '加载中...',
+// 分页配置
+const pageConfig : PageConfig = {
+  disabled: false,
+  direction: 'row',
+  layout: 'total,sizes,prev,pager,next,jumper',
+  total: total,
+  currentPage:currentPage,
+  pageSize: pageSize,
+  pageSizes: [10, 20, 30, 40, 50, 100],
+  actions: {
+    sizeChange: (value: number) => {
+      console.log('sizeChange',value)
+      currentPage.value = 1
+      pageSize.value = value
+      getData()
+    },
+    currentChange: (value: number) => {
+      console.log('currentChange',value)
+      currentPage.value = value
+      getData()
+    },
+    prevClick: (value: number) => {
+      console.log('prevClick',value)
+    },
+    nextClick: (value: number) => {
+      console.log('nextClick',value)
+    },
+  }
 }
-
-const currentRow = ref()
-const singleTableRef = ref()
-
-const setCurrent = (row?: object) => {
-  console.log('row', row)
-  console.log('singleTableRef', singleTableRef.value)
-  singleTableRef.value.tableRef.setCurrentRow(row)
+// 加载框配置
+const loadConfig  = {
+  isLoad: loading,
+  lock: true,
+  fullscreen: true,
+  text: '加载中...'
 }
 const handleCurrentChange = (currentRow: any, oldCurrentRow: any) => {
   currentRow.value = currentRow
 }
-const options2 = [
-  {
-    align: 'center',
-    type: 'index',
-    label: '序号',
-    width: 200,
-    extra: {
-      // fixed: true,
-      sortable: true,
-    }
-  },
-  {
-    label: '姓名',
-    prop: 'name',
-    align: 'center',
-    width: 200,
-    headerSlot: 'header',
-    extra: {
-      // fixed: true,
-      sortable: true,
-    }
-  },
-  {
-    label: '日期',
-    prop: 'date',
-    align: 'center',
-    slot: 'date',
-    width: 200,
-    extra: {
-      // fixed: true,
-      sortable: true,
-    }
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 200,
-    align: 'center',
-    extra: {
-      // fixed: true,
-      minWidth: 200,
-      // sortable: true,
-    }
-  }
-]
 const options = [
   {
     align: 'center',
-    label: '序号',
     type: 'index',
+    label: '序号',
+    width: 75,
     extra: {
       fixed: true,
-      width: 200,
-      sortable: true
+      sortable: true,
+    }
+  },
+  {
+    label: '姓名',
+    prop: 'name',
+    align: 'center',
+    extra: {
+      // fixed: true,
+      sortable: true,
     }
   },
   {
@@ -159,106 +158,18 @@ const options = [
     prop: 'date',
     align: 'center',
     extra: {
-      fixed: true,
-      width: 200,
+      // fixed: true,
       sortable: true,
     }
   }, {
-    label: '姓名',
-    prop: 'name',
+    label: '地址',
+    prop: 'address',
     align: 'center',
-    headerSlot: 'date',
-    children: [
-      {
-        label: '地址',
-        prop: 'address',
-        align: 'center',
-        headerSlot: 'header',
-        children: [
-          {
-            label: '头像',
-            prop: 'address',
-            align: 'center',
-            headerSlot: 'header',
-            children: [
-              {
-                label: '头像',
-                prop: 'address',
-                width: 200,
-                align: 'center',
-                headerSlot: 'header',
-              },
-              {
-                label: '日期',
-                prop: 'date',
-                align: 'center',
-                headerSlot: 'header',
-                extra: {
-                  width: 200,
-                  sortable: true,
-                }
-              }
-            ]
-          },
-          {
-            label: '头像',
-            prop: 'address',
-            width: 200,
-            align: 'center'
-          }
-        ]
-      },
-      {
-        label: '头像',
-        prop: 'address',
-        align: 'center'
-      }
-    ]
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 300,
-    align: 'center'
-  }, {
-    label: '地址',
-    prop: 'address',
-    minWidth: 200,
-    align: 'center'
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 200,
-    align: 'center'
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 200,
-    align: 'center'
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 200,
-    align: 'center'
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 200,
-    align: 'center'
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 200,
-    align: 'center'
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 200,
-    align: 'center'
-  }, {
-    label: '地址',
-    prop: 'address',
-    width: 200,
-    align: 'center'
+    extra: {
+      // fixed: true,
+      // sortable: true,
+      showOverflowTooltip: true
+    }
   }
 ]
 const actionOption = {
@@ -270,254 +181,6 @@ const actionOption = {
     sortable: true,
   }
 }
-const tableData2 = ref()
-
-setTimeout(() => {
-  tableData2.value = tableData
-}, 3000)
-
-const tableData: any = [
-  {
-    date: '2016-05-03',
-    name: 'Text',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  }, {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
 
 const tableRowStyle = ({
                          row,
