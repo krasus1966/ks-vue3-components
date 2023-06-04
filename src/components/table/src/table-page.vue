@@ -1,18 +1,18 @@
 <template>
   <div style="flex-direction: row;min-height: 84.5vh">
-    <el-form v-if="searchConfig.isSearch" :model="form" :inline="true">
+    <el-form v-if="searchConfig.isSearch" :model="searchForm" :inline="true">
       <template v-if="!showMoreSearchOptions" v-for="(item,index) in searchConfig.options">
-        <el-form-item label-width="auto" :label="item.label" :prop="form[item.prop]">
-          <el-input v-if="item.type === 'input'" v-model="form[item.prop]" :placeholder="item.placeholder"/>
+        <el-form-item :label-width="item.labelWidth ? item.labelWidth : 'auto'" :label="item.label" :prop="searchForm[item.prop]">
+          <el-input v-if="item.type === 'input'" v-model="searchForm[item.prop]" :placeholder="item.placeholder"/>
         </el-form-item>
       </template>
       <template v-else v-for="(item,index) in searchConfig.moreOptions">
-        <el-form-item label-width="auto" :label="item.label" :prop="form[item.prop]">
-          <el-input v-if="item.type === 'input'" v-model="form[item.prop]" :placeholder="item.placeholder"/>
+        <el-form-item :label-width="item.labelWidth ? item.labelWidth : 'auto'" :label="item.label" :prop="searchForm[item.prop]">
+          <el-input v-if="item.type === 'input'" v-model="searchForm[item.prop]" :placeholder="item.placeholder"/>
         </el-form-item>
       </template>
-      <el-form-item label-width="auto" style="justify-content: right">
-        <el-button type="primary" plain @click="searchConfig.action?.submit(<Object>form)">搜索</el-button>
+      <el-form-item style="justify-content: right">
+        <el-button type="primary" plain @click="searchConfig.action?.submit(searchForm)">搜索</el-button>
         <el-button plain @click="reset">重置</el-button>
         <el-button v-if="searchConfig.options?.length > 0 && searchConfig.moreOptions?.length > 0"
                    @click="showMoreSearchOptions = !showMoreSearchOptions">
@@ -20,29 +20,30 @@
         </el-button>
       </el-form-item>
     </el-form>
-    <el-form v-if="actionConfig.showActions" style="display: flex;justify-content: right">
+    <el-form v-if="operatorConfig.showActions" style="display: flex;justify-content: right">
       <el-form-item>
-        <el-button type="primary" plain @click="searchConfig.action?.submit(<Object>form)">添加</el-button>
-        <el-button plain @click="searchConfig.action?.reset(<Object>form)">批量删除</el-button>
+        <slot name="operator"></slot>
       </el-form-item>
     </el-form>
     <el-container style="justify-content: right">
       <el-dropdown ref="dropdown" :hide-on-click="false" trigger="contextmenu">
-        <span class="el-dropdown-link" @click="showClick">
-          标题<ks-svg-icon icon="arrowdown" style="color: #1a252f"/>
+        <span class="el-dropdown-link" @click="showClick" style="color: #0a84ff;cursor: pointer">
+          表格表头配置<ks-svg-icon icon="arrowdown"/>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-checkbox-group v-model="checkBox">
+            <el-checkbox-group v-model="optionCheckBox">
               <el-tooltip class="item" effect="dark" content="鼠标点击标题拖动可以调整标题显示顺序" placement="left">
                 <el-scrollbar class="dropdown-scrollbar">
                   <draggable :list="realOptions"
                              :animation="340"
+                             filter=".undraggable"
                              group="options"
                              @end="onEnd"
-                             item-key="label">
+                             :move="checkCanMove"
+                             item-key="id">
                     <template #item="{element}">
-                      <div>
+                      <div :class="[(element?.disableDraggable || element?.extra?.fixed) ? 'undraggable' : '']">
                         <el-dropdown-item>
                           <el-checkbox :label="element.id">{{ element.label }}</el-checkbox>
                         </el-dropdown-item>
@@ -70,7 +71,7 @@
         :element-loading-text="load?.text"
         :element-loading-background="load?.background"
         v-bind="tableConfig"
-        v-on="tableConfig">
+        v-on="tableConfig?.extraAction">
       <table-column v-for="(item,index) in showOptions" :key="index" :option="item">
         <template v-for="slot in Object.keys(customSlots)" #[slot]="scope">
           <slot :name="slot" v-bind="scope"/>
@@ -113,15 +114,16 @@
 
 <script lang="ts" setup>
 import {getCurrentInstance, onMounted, PropType, reactive, ref} from "vue";
+import {ElTable} from "element-plus/es";
+import draggable from "vuedraggable";
+import {Slots} from "@vue/runtime-core";
 import {TableOptions} from "./type/types";
 import TableColumn from "./table-column.vue";
-import {ElTable} from "element-plus/es";
-import {Slots} from "@vue/runtime-core";
 import {TableConfig} from "./type/table-config";
 import {LoadConfig} from "./type/load";
 import {PageConfig} from "./type/pagination";
 import {SearchOption} from "./type/search-config";
-import draggable from "vuedraggable";
+import {OperatorConfig} from "./type/operator-config";
 
 const props = defineProps({
   // 表格配置
@@ -140,8 +142,8 @@ const props = defineProps({
     required: true
   },
   // 操作栏配置
-  actionConfig: {
-    type: Object,
+  operatorConfig: {
+    type: Object as PropType<OperatorConfig>,
     required: true
   },
   // 表格 列信息
@@ -173,28 +175,30 @@ const props = defineProps({
     default: false
   },
 })
+// 暴露el-table的方法
+const tableRef = ref<InstanceType<typeof ElTable>>()
+
 const tableKey = ref<number>(1)
 // 可以显示的表头
-const realOptions = ref<TableOptions[]>(props.options.filter((i)=> !i.disabled))
+const realOptions = ref<TableOptions[]>(props.options.filter((i) => !i.disabled))
 // 当前显示的表头
 const showOptions = ref<TableOptions[]>([])
 const dropdown = ref()
 const showDropdown = ref(false)
-const checkBox = ref<string[]>([])
+const optionCheckBox = ref<string[]>([])
 
-onMounted(()=>{
+onMounted(() => {
   if (props.tableConfig?.key) {
     tableKey.value = props.tableConfig?.key
   }
   for (var item of realOptions.value) {
     if (item.isShow) {
-      checkBox.value.push(item.id)
+      optionCheckBox.value.push(item.id)
     }
   }
-  showOptions.value = props.options.filter((i)=> checkBox.value.indexOf(i.id) >= 0)
+  showOptions.value = realOptions.value.filter((i) => optionCheckBox.value.indexOf(i.id) >= 0)
 })
-// 暴露el-table的方法
-const tableRef = ref<InstanceType<typeof ElTable>>()
+
 
 const showClick = () => {
   if (showDropdown.value) {
@@ -211,28 +215,36 @@ const proxy = getCurrentInstance()?.proxy
 const customSlots: Slots = reactive({
   ...proxy?.$slots
 })
-
-const form = reactive<object>({
+/**
+ * 搜索表单
+ */
+const searchForm = reactive<object>({
   ...props.searchConfig?.form
 })
-const reset = (value: object) => {
-  var options = props.searchConfig?.options
-  if (options) {
-    for (const item of options) {
-      form[item.prop] = ''
-    }
+/**
+ * 重置表单值，同时调用外部的重置表单方法
+ */
+const reset = () => {
+  for (const key in searchForm) {
+    searchForm[key] = ''
   }
-  props.searchConfig.action?.reset(<Object>form)
+  props.searchConfig.action?.reset(searchForm)
+  props.searchConfig.action?.submit(searchForm)
 }
 const showMoreSearchOptions = ref<boolean>(props.searchConfig?.options?.length <= 0)
 
-const onEnd = ()=> {
-  showOptions.value = realOptions.value.filter((i) => checkBox.value.indexOf(i.id) >= 0)
-  tableKey.value++
+const checkCanMove = (e) => {
+  if (e.relatedContext.element?.disableDraggable || e.relatedContext.element?.extra?.fixed) {
+    return false
+  }
+}
+
+const onEnd = () => {
+  showOptions.value = realOptions.value.filter((i) => optionCheckBox.value.indexOf(i.id) >= 0)
   tableRef.value!.doLayout()
 }
 
-const saveOption = () =>{
+const saveOption = () => {
   onEnd()
   // 调用外部保存逻辑
 }

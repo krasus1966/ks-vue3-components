@@ -5,6 +5,8 @@ export interface TableOptions {
   disabled: boolean
   // 是否默认显示，true则在列表显示，false可以在筛选列表勾选成true，对操作列无效 对多级表头无效
   isShow: boolean
+  // 禁止拖动排序
+  disableDraggable: boolean
   // 唯一标识
   id: string
   // 表头名称
