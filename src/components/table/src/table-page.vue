@@ -2,12 +2,14 @@
   <div style="flex-direction: row;min-height: 84.5vh">
     <el-form v-if="searchConfig.isSearch" :model="searchForm" :inline="true">
       <template v-if="!showMoreSearchOptions" v-for="(item,index) in searchConfig.options">
-        <el-form-item :label-width="item.labelWidth ? item.labelWidth : 'auto'" :label="item.label" :prop="searchForm[item.prop]">
+        <el-form-item :label-width="item.labelWidth ? item.labelWidth : 'auto'" :label="item.label"
+                      :prop="searchForm[item.prop]">
           <el-input v-if="item.type === 'input'" v-model="searchForm[item.prop]" :placeholder="item.placeholder"/>
         </el-form-item>
       </template>
       <template v-else v-for="(item,index) in searchConfig.moreOptions">
-        <el-form-item :label-width="item.labelWidth ? item.labelWidth : 'auto'" :label="item.label" :prop="searchForm[item.prop]">
+        <el-form-item :label-width="item.labelWidth ? item.labelWidth : 'auto'" :label="item.label"
+                      :prop="searchForm[item.prop]">
           <el-input v-if="item.type === 'input'" v-model="searchForm[item.prop]" :placeholder="item.placeholder"/>
         </el-form-item>
       </template>
