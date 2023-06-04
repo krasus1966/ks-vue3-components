@@ -1,5 +1,6 @@
 <template>
   <el-table-column
+      :key="option.id"
       v-if="option.children?.length > 0"
       :label="option.label"
       :align="option.align"
@@ -25,6 +26,7 @@
   </el-table-column>
   <el-table-column
       v-else
+      :key="option.id"
       :prop="option.prop"
       :label="option.label"
       :type="option.type"
@@ -42,7 +44,7 @@
 </template>
 <script setup lang="ts">
 import {getCurrentInstance, PropType, reactive} from "vue";
-import {TableOptions} from "./types";
+import {TableOptions} from "./type/types";
 import {Slots} from "@vue/runtime-core";
 
 // 获取代理对象内的插槽，循环传递给table-column

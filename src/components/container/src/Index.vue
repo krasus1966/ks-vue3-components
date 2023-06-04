@@ -9,9 +9,7 @@
       </el-header>
       <el-scrollbar style="padding-left: 15px">
         <el-main>
-          <el-scrollbar>
-            <router-view/>
-          </el-scrollbar>
+          <router-view/>
         </el-main>
       </el-scrollbar>
     </el-container>

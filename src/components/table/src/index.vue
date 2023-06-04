@@ -1,22 +1,8 @@
 <template>
-  <el-container direction="vertical" style="height: 100vh">
-    <el-form :inline="true">
-      <template v-for="(item,index) in searchConfig.options">
-        <el-form-item :label="item.label" v-model="item.prop">
-          <el-input v-if="item.type === 'input'" :placeholder="item.placeholder"/>
-        </el-form-item>
-      </template>
-      <el-form-item>
-        <el-button type="primary" size="small" plain @click="searchConfig.action?.submit()">搜索</el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-button size="small" plain @click="searchConfig.action?.reset()">重置</el-button>
-      </el-form-item>
-    </el-form>
     <el-table
         ref="tableRef"
         :data="data"
-        style="width: 100%"
+        style="width: 100%;min-height: 70vh"
         v-loading.lock="load?.isLoad.value"
         :element-loading-text="load?.text"
         :element-loading-background="load?.background"
@@ -59,34 +45,22 @@
         :current-page="pageConfig.currentPage.value"
         v-on="pageConfig.actions"
     />
-  </el-container>
 </template>
 
 <script lang="ts" setup>
 import {getCurrentInstance, PropType, reactive, ref} from "vue";
-import {TableOptions} from "./types";
+import {TableOptions} from "./type/types";
 import TableColumn from "./table-column.vue";
 import {ElTable} from "element-plus/es";
 import {Slots} from "@vue/runtime-core";
-import {TableConfig} from "./table-config";
-import {LoadConfig} from "./load";
-import {PageConfig} from "./pagination";
-import {SearchOption} from "./search-config";
+import {TableConfig} from "./type/table-config";
+import {LoadConfig} from "./type/load";
+import {PageConfig} from "./type/pagination";
+// import {SearchOption} from "./type/search-config";
 
-// 获取代理对象内的插槽，循环传递给table-column
-const proxy = getCurrentInstance()?.proxy
-const customSlots: Slots = reactive({
-  ...proxy?.$slots
-})
-
-// 暴露el-table的方法
-const tableRef = ref<InstanceType<typeof ElTable>>()
-defineExpose({
-  tableRef
-});
 
 const props = defineProps({
-  // 表格设置
+  // 表格配置
   tableConfig: {
     type: Object as PropType<TableConfig>,
     required: false
@@ -101,13 +75,9 @@ const props = defineProps({
     type: Array as PropType<TableOptions[]>,
     required: true
   },
-  // 操作列
+  // 操作列 列信息
   actionOption: {
     type: Object as PropType<TableOptions>
-  },
-  searchConfig: {
-    type: Object as PropType<SearchOption>,
-    required: true
   },
   // 数据
   data: {
@@ -125,6 +95,18 @@ const props = defineProps({
     required: false
   }
 })
+
+// 获取代理对象内的插槽，循环传递给table-column
+const proxy = getCurrentInstance()?.proxy
+const customSlots: Slots = reactive({
+  ...proxy?.$slots
+})
+
+// 暴露el-table的方法
+const tableRef = ref<InstanceType<typeof ElTable>>()
+defineExpose({
+  tableRef
+});
 </script>
 
 <style lang="scss" scoped>
