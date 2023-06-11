@@ -1,6 +1,6 @@
 <template>
   <div style="flex-direction: row;min-height: 84.5vh">
-    <el-form v-if="searchConfig.isSearch" :model="searchForm" :inline="true">
+    <el-form v-if="searchConfig?.isSearch" :model="searchForm" :inline="true">
       <template v-if="!showMoreSearchOptions" v-for="(item,index) in searchConfig.options">
         <el-form-item :label-width="item.labelWidth ? item.labelWidth : 'auto'" :label="item.label"
                       :prop="searchForm[item.prop]">
@@ -22,7 +22,7 @@
         </el-button>
       </el-form-item>
     </el-form>
-    <el-form v-if="operatorConfig.showActions" style="display: flex;justify-content: right">
+    <el-form v-if="operatorConfig?.showActions" style="display: flex;justify-content: right">
       <el-form-item>
         <slot name="operator"></slot>
       </el-form-item>
@@ -141,12 +141,12 @@ const props = defineProps({
   // 搜索配置
   searchConfig: {
     type: Object as PropType<SearchOption>,
-    required: true
+    required: false
   },
   // 操作栏配置
   operatorConfig: {
     type: Object as PropType<OperatorConfig>,
-    required: true
+    required: false
   },
   // 表格 列信息
   options: {

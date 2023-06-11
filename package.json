@@ -15,6 +15,7 @@
     "@fullcalendar/daygrid": "^5.10.1",
     "@fullcalendar/interaction": "^5.10.1",
     "@typescript-eslint/parser": "^5.7.0",
+    "bpmn-js": "^13.2.0",
     "element-plus": "2.0.6",
     "mockjs": "^1.1.0",
     "pdfjs-dist": "^2.10.377",

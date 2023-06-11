@@ -60,69 +60,9 @@ const data = [
     index: '/preview',
     icon: 'ShoppingBag'
   }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
-  }, {
-    name: 'icon',
-    index: '/icon',
-    icon: 'ShoppingBag'
+    name: '流程管理',
+    index: '/bpmn',
+    icon: 'darrowright'
   }
 ]
 </script>

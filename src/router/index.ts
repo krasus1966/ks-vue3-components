@@ -46,6 +46,19 @@ const routes: RouteRecordRaw[] = [
       }, {
         path: '/table',
         component: () => import('../views/table/index.vue')
+      }, {
+        path: '/bpmn',
+        redirect: '/bpmn/index',
+        children: [
+          {
+            path: 'index',
+            component: () => import('../views/process/index.vue')
+          },
+          {
+            path: 'design',
+            component: () => import('../views/process/design/index.vue'),
+          }
+        ]
       }
     ]
   }

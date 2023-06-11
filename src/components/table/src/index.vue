@@ -84,7 +84,7 @@
 </template>
 
 <script lang="ts" setup>
-import {getCurrentInstance, PropType, reactive, ref} from "vue";
+import {getCurrentInstance, onMounted, PropType, reactive, ref} from "vue";
 import {ElTable} from "element-plus/es";
 import draggable from "vuedraggable";
 import {Slots} from "@vue/runtime-core";
@@ -179,6 +179,18 @@ const saveOption = () =>{
 defineExpose({
   tableRef
 });
+
+onMounted(() => {
+  if (props.tableConfig?.key) {
+    tableKey.value = props.tableConfig?.key
+  }
+  for (var item of realOptions.value) {
+    if (item.isShow) {
+      checkBox.value.push(item.id)
+    }
+  }
+  showOptions.value = realOptions.value.filter((i) => checkBox.value.indexOf(i.id) >= 0)
+})
 </script>
 
 <style lang="scss" scoped>

@@ -14,6 +14,7 @@ import progress from './progress'
 import calendar from './calendar'
 import container from './container'
 import svgIcon from './svgIcon'
+import process from './bpmn'
 
 import '../styles/base.scss'
 import '../styles/ui.scss'
@@ -33,7 +34,8 @@ const components = [
   calendar,
   table,
   svgIcon,
-  container
+  container,
+  process
 ]
 
 const install = (app:App) => {
@@ -58,7 +60,8 @@ export {
   progress,
   calendar,
   svgIcon,
-  container
+  container,
+  process
 }
 
 export default {
