@@ -12,6 +12,7 @@ import kMenu from './menu'
 import preview from './preview'
 import progress from './progress'
 import calendar from './calendar'
+import form from './form'
 import container from './container'
 import svgIcon from './svgIcon'
 import process from './bpmn'
@@ -35,7 +36,8 @@ const components = [
   table,
   svgIcon,
   container,
-  process
+  process,
+  form
 ]
 
 const install = (app:App) => {
@@ -61,7 +63,8 @@ export {
   calendar,
   svgIcon,
   container,
-  process
+  process,
+  form
 }
 
 export default {

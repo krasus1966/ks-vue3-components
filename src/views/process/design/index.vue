@@ -1,7 +1,7 @@
 <template>
   <ks-bpmn
     :is-view="false"
-    @save=""
+    @save="save"
   />
 </template>
 
