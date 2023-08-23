@@ -17,7 +17,7 @@
     "@types/lodash": "^4.14.197",
     "@typescript-eslint/parser": "^5.7.0",
     "bpmn-js": "^13.2.0",
-    "element-plus": "2.0.6",
+    "element-plus": "^2.3.9",
     "lodash": "^4.17.21",
     "pdfjs-dist": "^2.10.377",
     "vue": "^3.2.25",

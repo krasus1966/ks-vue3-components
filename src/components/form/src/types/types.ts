@@ -10,9 +10,11 @@ import {
   UploadUserFile
 } from "element-plus";
 import {Awaitable} from "element-plus/lib/utils";
+import type { UploadInstance } from 'element-plus'
 
 export type FormScope = {
   form: FormInstance,
+  upload: UploadInstance,
   model: any
 }
 

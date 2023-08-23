@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import {FormOptions, FormScope, ScopeType} from "../../components/form/src/types/types";
+import {FormOptions, FormScope } from "../../components/form/src/types/types";
 import {ref} from "vue";
 import {ElMessage, ElMessageBox, FormInstance} from "element-plus";
 import {ValidateFieldsError} from "async-validator";
@@ -188,7 +188,7 @@ const options: FormOptions[] = [
       action: 'https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15',
       //accept: 'image/png',
       multiple: true,
-      limit: 1,
+      limit: 6,
       onPreview: uploadFile => {
         ElMessage.success('点击预览文件！')
       },
@@ -257,7 +257,10 @@ const submitForm = (scope: FormScope) => {
 }
 
 const resetForm = (scope: FormScope) => {
-  scope.form.resetFields()
+  scope?.form.resetFields()
+  if (scope?.upload) {
+    scope.upload[0]?.clearFiles()
+  }
   ElMessage.success('表单项重置！')
 }
 </script>

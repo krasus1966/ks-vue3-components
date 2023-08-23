@@ -11,7 +11,7 @@
         :key="index">
       <el-form-item
           v-if="!item.children || !item.children!.length"
-          :prop="item.prop"
+          :prop="item.prop!"
           :label="item.label">
         <component
             v-if="item.type !== 'el-upload'"
@@ -20,14 +20,14 @@
             :is="item.type"
             v-model="model[item.prop!]">
         </component>
-        <el-upload v-else v-bind="item.uploadAttrs">
+        <el-upload ref="upload" v-else v-bind="item.uploadAttrs">
           <slot name="uploadArea"></slot>
           <slot name="uploadTip"></slot>
         </el-upload>
       </el-form-item>
       <el-form-item
           v-if="item.children && item.children.length"
-          :prop="item.prop"
+          :prop="item.prop!"
           :label="item.label">
         <component
             :placeholder="item.placeholder"
@@ -47,7 +47,7 @@
       </el-form-item>
     </template>
     <el-form-item>
-      <slot name="action" :form="form" :model="model"></slot>
+      <slot name="action" :form="form" :model="model" :upload="upload"></slot>
     </el-form-item>
   </el-form>
 </template>
@@ -57,7 +57,7 @@
 import {onBeforeMount, PropType, Ref, ref, watch} from "vue";
 import {FormOptions} from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
-import {FormInstance} from "element-plus";
+import {FormInstance, UploadInstance} from "element-plus";
 
 const props = defineProps({
   options: {
@@ -69,6 +69,7 @@ const props = defineProps({
 
 
 const form = ref<FormInstance | null>()
+const upload = ref<UploadInstance>()
 const model = ref<any>()
 const rules = ref<any>()
 
@@ -93,6 +94,7 @@ watch(() => props.options, () => {
 
 defineExpose({
   form,
+  upload,
   model
 })
 </script>
