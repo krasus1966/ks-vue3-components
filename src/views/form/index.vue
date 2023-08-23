@@ -1,23 +1,31 @@
 <template>
-<div>
-  <ks-form :options="options" label-width="100px">
-    <template #uploadArea>
-      <el-button size="small" type="primary">点击上传</el-button>
-    </template>
-    <template #uploadTip>
-      <div class="el-upload__tip">
-        jpg/png files with a size less than 500KB.
-      </div>
-    </template>
-  </ks-form>
-</div>
+  <div>
+    <ks-form ref="formRef" :options="options" label-width="100px">
+      <template #uploadArea>
+        <el-button size="small" type="primary">点击上传</el-button>
+      </template>
+      <template #uploadTip>
+        <div class="el-upload__tip">
+          jpg/png files with a size less than 500KB.
+        </div>
+      </template>
+      <template #action="scope">
+        <el-button type="primary" @click="submitForm(scope)">保存</el-button>
+        <el-button @click="resetForm(scope)">重置</el-button>
+      </template>
+    </ks-form>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import {FormOptions} from "../../components/form/src/types/types";
+import {FormOptions, FormScope, ScopeType} from "../../components/form/src/types/types";
 import {ref} from "vue";
-import {Awaitable} from "element-plus/lib/utils";
-const username = ref()
+import {ElMessage, ElMessageBox, FormInstance} from "element-plus";
+import {ValidateFieldsError} from "async-validator";
+import {FormValidateCallback} from "element-plus/es/components/form/src/types";
+
+const formRef = ref()
+
 const options: FormOptions[] = [
   {
     type: 'el-input',
@@ -29,13 +37,13 @@ const options: FormOptions[] = [
       {
         required: true,
         message: '用户名不能为空',
-        trigger:'blur'
+        trigger: 'blur'
       },
       {
         min: 2,
         max: 6,
         message: '用户名在2-6位之间',
-        trigger:'blur'
+        trigger: 'blur'
       },
     ]
   },
@@ -49,13 +57,13 @@ const options: FormOptions[] = [
       {
         required: true,
         message: '密码不能为空',
-        trigger:'blur'
+        trigger: 'blur'
       },
       {
         min: 6,
         max: 15,
         message: '密码在6-15位之间',
-        trigger:'blur'
+        trigger: 'blur'
       },
     ],
     attrs: {
@@ -69,11 +77,11 @@ const options: FormOptions[] = [
     prop: 'rank',
     placeholder: '请选择职位',
     attrs: {
-      style:{
+      style: {
         width: '100%'
       },
     },
-    children:[
+    children: [
       {
         type: 'el-option',
         value: '1',
@@ -83,7 +91,7 @@ const options: FormOptions[] = [
         type: 'el-option',
         value: '2',
         label: '职位2',
-      },{
+      }, {
         type: 'el-option',
         value: '3',
         label: '职位3',
@@ -97,11 +105,11 @@ const options: FormOptions[] = [
     prop: 'rank2',
 
     attrs: {
-      style:{
+      style: {
         width: '100%'
       },
     },
-    children:[
+    children: [
       {
         type: 'el-checkbox',
         value: '1',
@@ -111,7 +119,7 @@ const options: FormOptions[] = [
         type: 'el-checkbox',
         value: '2',
         label: '职位2',
-      },{
+      }, {
         type: 'el-checkbox',
         value: '3',
         label: '职位3',
@@ -124,15 +132,16 @@ const options: FormOptions[] = [
     label: '职位3',
     prop: 'rank3',
     rules: [{
-      required:true,
+      required: true,
       trigger: 'blur',
+      message: '请选择职级3',
     }],
     attrs: {
-      style:{
+      style: {
         width: '100%'
       },
     },
-    children:[
+    children: [
       {
         type: 'el-radio',
         value: '1',
@@ -142,7 +151,7 @@ const options: FormOptions[] = [
         type: 'el-radio',
         value: '2',
         label: '职位2',
-      },{
+      }, {
         type: 'el-radio',
         value: '3',
         label: '职位3',
@@ -155,65 +164,102 @@ const options: FormOptions[] = [
     label: '评分',
     prop: 'rank4',
     rules: [{
-      required:true,
+      required: true,
       trigger: 'blur',
+      message: '请选择评分',
     }],
     attrs: {
-      style:{
+      style: {
         width: '100%'
       },
     },
   },
   {
     type: 'el-upload',
-    value: 5,
+    value: '',
     label: '上传附件',
-    prop: 'upload',
+    prop: 'upload222',
     rules: [{
-      required:true,
+      required: true,
       trigger: 'blur',
+      message: '请上传文件',
     }],
     uploadAttrs: {
-      action: 'http://127.0.0.1:8080/api/upload',
-      accept: 'image/png',
-      //multiple: true,
+      action: 'https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15',
+      //accept: 'image/png',
+      multiple: true,
+      limit: 1,
       onPreview: uploadFile => {
-        console.log('upload onPreview',uploadFile)
+        ElMessage.success('点击预览文件！')
       },
       onRemove: uploadFile => {
-        console.log('upload onRemove',uploadFile)
+        ElMessage.success('文件已删除！')
       },
       onSuccess: response => {
-        console.log('upload success',response)
+        // 子组件的model中赋值
+        formRef.value.model.upload222 = response
+        ElMessage.success('文件上传成功！')
       },
       onError: error => {
-        console.log('upload error',error)
+        ElMessage.error('上传文件失败！')
       },
       onProgress: evt => {
-        console.log('upload onProgress',evt)
       },
       onChange: uploadFile => {
-        console.log('upload onChange',uploadFile)
       },
       onExceed: files => {
-        console.log('upload onExceed',files)
+        ElMessage.warning('上传文件超过数量限制！')
       },
       beforeUpload: rawFile => {
-        console.log('beforeUpload',rawFile)
       },
       beforeRemove: uploadFile => {
-        console.log('beforeRemove',uploadFile)
-        return true;
+        return ElMessageBox.confirm(
+            '此操作将会删除选中文件. 是否确认?',
+            '警告',
+            {
+              confirmButtonText: '确认',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }
+        )
+            .then(() => {
+              return true;
+            })
+            .catch(() => {
+              ElMessage.info('取消删除文件')
+              return false;
+            })
       },
-      httpRequest: options1 => {
+      /*httpRequest: options1 => {
          console.log('upload httpRequest',options1)
         return new Promise(resolve => {
           console.log('upload httpRequest Promise',resolve)
         });
-      }
+      }*/
     },
   }
 ]
+
+const submitForm = (scope: FormScope) => {
+  scope.form.validate((valid,invalidFields) => {
+    if (valid) {
+      ElMessage.success(JSON.stringify(scope.model))
+    } else {
+      Object.keys(invalidFields!!).forEach((key,i) => {
+        const propName=invalidFields!![key][0]
+        setTimeout(()=>{
+          ElMessage.error(propName)
+        })
+      })
+      return false
+    }
+  })
+}
+
+const resetForm = (scope: FormScope) => {
+  scope.form.resetFields()
+  ElMessage.success('表单项重置！')
+}
 </script>
 
 <style lang="scss" scoped>

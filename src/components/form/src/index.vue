@@ -1,9 +1,11 @@
 <template>
-  <el-form v-if="model"
-           :validate-on-rule-change="false"
-           v-bind="$attrs"
-           :model="model"
-           :rules="rules">
+  <el-form
+      v-if="model"
+      :validate-on-rule-change="false"
+      v-bind="$attrs"
+      ref="form"
+      :model="model"
+      :rules="rules">
     <template
         v-for="(item,index) in options"
         :key="index">
@@ -34,33 +36,39 @@
             v-model="model[item.prop!]"
         >
           <component
-            v-for="(child,i) in item.children"
-            :key="i"
-            :is="child.type"
-            :label="child.label"
-            :value="child.value">
+              v-for="(child,i) in item.children"
+              :key="i"
+              :is="child.type"
+              :label="child.label"
+              :value="child.value">
 
           </component>
         </component>
       </el-form-item>
     </template>
-
+    <el-form-item>
+      <slot name="action" :form="form" :model="model"></slot>
+    </el-form-item>
   </el-form>
 </template>
 
 <script lang="ts" setup>
 
-import {onBeforeMount, PropType, ref,watch} from "vue";
+import {onBeforeMount, PropType, Ref, ref, watch} from "vue";
 import {FormOptions} from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
+import {FormInstance} from "element-plus";
 
 const props = defineProps({
   options: {
     type: Array as PropType<FormOptions[]>,
     required: true
-  }
+  },
 })
 
+
+
+const form = ref<FormInstance | null>()
 const model = ref<any>()
 const rules = ref<any>()
 
@@ -79,9 +87,14 @@ onBeforeMount(() => {
   initForm();
 })
 
-watch(()=>props.options,()=>{
+watch(() => props.options, () => {
   initForm()
-},{deep:true})
+}, {deep: true})
+
+defineExpose({
+  form,
+  model
+})
 </script>
 
 <style lang="scss" scoped>

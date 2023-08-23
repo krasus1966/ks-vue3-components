@@ -1,6 +1,7 @@
 import {RuleItem} from "./rule";
 import {CSSProperties} from "vue";
 import {
+  FormInstance,
   UploadFile,
   UploadFiles,
   UploadProgressEvent,
@@ -9,6 +10,11 @@ import {
   UploadUserFile
 } from "element-plus";
 import {Awaitable} from "element-plus/lib/utils";
+
+export type FormScope = {
+  form: FormInstance,
+  model: any
+}
 
 export interface FormOptions {
 
@@ -59,7 +65,7 @@ type UploadOptions = {
   limit?: number,
   onPreview?: (uploadFile: UploadFile) => void,
   onRemove?: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void,
-  onSuccess?: (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => void,
+  onSuccess: (response: any, uploadFile: UploadFile, uploadFiles: UploadFiles) => void,
   onError?: (error: Error, uploadFile: UploadFile, uploadFiles: UploadFiles) => void,
   onProgress?: (evt: UploadProgressEvent, uploadFile: UploadFile, uploadFiles: UploadFiles) => void,
   onChange?: (uploadFile: UploadFile, uploadFiles: UploadFiles) => void,
