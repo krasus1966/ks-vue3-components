@@ -36,7 +36,7 @@ const props = defineProps<{
   // 控制弹出框的显示与隐藏
   visible: boolean,
   // 按钮类型
-  buttonType: string
+  buttonType?: "primary" | "success" | "warning" | "danger" | "info" | "text" ,
 }>()
 
 const emits = defineEmits(['update:visible'])

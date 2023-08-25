@@ -1,5 +1,5 @@
 <template>
-  <ks-choose-icon title="选择图标" v-model:visible="visible">
+  <ks-choose-icon title="选择图标" v-model:visible="visible" buttonType="">
     选择图标
   </ks-choose-icon>
 </template>
