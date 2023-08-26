@@ -178,12 +178,13 @@ const options: FormOptions[] = [
   {
     type: 'wang-editor',
     prop: 'editor',
-    value: '<h1>123333</h1>',
+    value: '<h2>123412312341234</h2>',
     label: '富文本编辑器',
     rules: [{
       required: true,
       trigger: 'blur',
       message: '富文本编辑器内容为空',
+      validator: () => !editorRef?.value.isEmpty()
     }],
     editorAttrs:{
       editorConfig:{
@@ -198,13 +199,7 @@ const options: FormOptions[] = [
         }
       },
       onCreated: editor => {
-        console.log('编辑器创建完毕')
         editorRef.value = editor
-        console.log('onCreated',editor.getHtml())
-      },
-      onChange: editor => {
-        console.log('变了')
-        // editor.setHtml('<br/>1111')
       }
     }
   },
@@ -279,6 +274,7 @@ const submitForm = (scope: FormScope) => {
     if (valid) {
       ElMessage.success(JSON.stringify(scope.model))
     } else {
+      console.log('invalidFields',invalidFields)
       Object.keys(invalidFields!!).forEach((key,i) => {
         const propName=invalidFields!![key][0]
         setTimeout(()=>{
@@ -295,7 +291,8 @@ const resetForm = (scope: FormScope) => {
   if (scope?.upload) {
     scope.upload[0]?.clearFiles()
   }
-  editorRef.value.setHtml('<br/>123')
+  editorRef?.value.clear()
+  editorRef?.value.setHtml('<p><br></p>')
   ElMessage.success('表单项重置！')
 }
 </script>

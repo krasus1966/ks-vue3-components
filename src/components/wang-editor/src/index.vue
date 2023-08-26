@@ -12,7 +12,7 @@
         :defaultConfig="props.editorConfig"
         :mode="props.mode"
         @onCreated="handleCreated"
-        @onChange="props.onChange"
+        @onChange="handleChange"
         @onDestroyed="props.onDestroyed"
         @onFocus="props.onFocus"
         @onBlur="props.onBlur"
@@ -25,7 +25,7 @@
 <script lang="ts" setup>
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
-import {onBeforeUnmount, ref, shallowRef, onMounted, computed, CSSProperties} from 'vue'
+import {onBeforeUnmount, shallowRef, computed, CSSProperties, ref} from 'vue'
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 import {IEditorConfig, IToolbarConfig} from "@wangeditor/editor";
 
@@ -51,15 +51,6 @@ interface EmitEvent {
   (e: 'update:modelValue', params: string): void
 }
 const emits = defineEmits<EmitEvent>()
-// 内容 HTML
-const valueHtml = computed({
-  get() {
-    return props.modelValue
-  },
-  set(value: string) {
-    emits('update:modelValue', value)
-  }
-})
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
@@ -76,12 +67,11 @@ const props = withDefaults(defineProps<EditorOptions>(), {
     overflowY: 'hidden',
   }
 })
+const valueHtml = ref(props.modelValue)
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
-  const editor = editorRef.value
-  if (editor == null) return
-  editor.destroy()
+  editorRef?.value?.destroy()
 })
 
 const handleCreated = (editor: any) => {
@@ -89,6 +79,10 @@ const handleCreated = (editor: any) => {
   props.onCreated?.(editor)
 }
 
+const handleChange = (editor: any) => {
+  emits('update:modelValue', editor.getHtml())
+  props.onChange?.(editor)
+}
 defineExpose({
   editorRef
 })

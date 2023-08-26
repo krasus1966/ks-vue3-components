@@ -12,11 +12,12 @@ import {
 import {Awaitable} from "element-plus/lib/utils";
 import type {UploadInstance} from 'element-plus'
 import {IEditorConfig, IToolbarConfig} from "@wangeditor/editor";
+import {IDomEditor} from "@wangeditor/core/dist/core/src/editor/interface";
 
 export type FormScope = {
   form: FormInstance,
   upload: UploadInstance,
-  component: any,
+  editor: IDomEditor,
   model: any
 }
 
