@@ -49,6 +49,9 @@ const routes: RouteRecordRaw[] = [
       }, {
         path: '/form',
         component: () => import('../views/form/index.vue')
+      }, {
+        path: '/wang-editor',
+        component: () => import('../views/wang-editor/index.vue')
       },{
         path: '/bpmn',
         redirect: '/bpmn/index',

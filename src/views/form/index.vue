@@ -19,12 +19,13 @@
 
 <script lang="ts" setup>
 import {FormOptions, FormScope } from "../../components/form/src/types/types";
-import {ref} from "vue";
+import {ref, shallowRef} from "vue";
 import {ElMessage, ElMessageBox, FormInstance} from "element-plus";
 import {ValidateFieldsError} from "async-validator";
 import {FormValidateCallback} from "element-plus/es/components/form/src/types";
 
 const formRef = ref()
+const editorRef = shallowRef()
 
 const options: FormOptions[] = [
   {
@@ -33,7 +34,7 @@ const options: FormOptions[] = [
     label: '用户名',
     prop: 'username',
     placeholder: '请输入用户名',
-    rules: [
+    /*rules: [
       {
         required: true,
         message: '用户名不能为空',
@@ -45,7 +46,7 @@ const options: FormOptions[] = [
         message: '用户名在2-6位之间',
         trigger: 'blur'
       },
-    ]
+    ]*/
   },
   {
     type: 'el-input',
@@ -53,7 +54,7 @@ const options: FormOptions[] = [
     label: '密码',
     prop: 'password',
     placeholder: '请输入密码',
-    rules: [
+    /*rules: [
       {
         required: true,
         message: '密码不能为空',
@@ -65,7 +66,7 @@ const options: FormOptions[] = [
         message: '密码在6-15位之间',
         trigger: 'blur'
       },
-    ],
+    ],*/
     attrs: {
       showPassword: true
     }
@@ -131,11 +132,11 @@ const options: FormOptions[] = [
     value: '',
     label: '职位3',
     prop: 'rank3',
-    rules: [{
+ /*   rules: [{
       required: true,
       trigger: 'blur',
       message: '请选择职级3',
-    }],
+    }],*/
     attrs: {
       style: {
         width: '100%'
@@ -163,11 +164,11 @@ const options: FormOptions[] = [
     value: 5,
     label: '评分',
     prop: 'rank4',
-    rules: [{
+ /*   rules: [{
       required: true,
       trigger: 'blur',
       message: '请选择评分',
-    }],
+    }],*/
     attrs: {
       style: {
         width: '100%'
@@ -175,15 +176,48 @@ const options: FormOptions[] = [
     },
   },
   {
+    type: 'wang-editor',
+    prop: 'editor',
+    value: '<h1>123333</h1>',
+    label: '富文本编辑器',
+    rules: [{
+      required: true,
+      trigger: 'blur',
+      message: '富文本编辑器内容为空',
+    }],
+    editorAttrs:{
+      editorConfig:{
+        placeholder: '请输入默认值',
+        readOnly: false,
+        autoFocus: true,
+        scroll:false,
+        MENU_CONF: {
+          ['uploadImage']: {
+            server: 'https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15',
+          }
+        }
+      },
+      onCreated: editor => {
+        console.log('编辑器创建完毕')
+        editorRef.value = editor
+        console.log('onCreated',editor.getHtml())
+      },
+      onChange: editor => {
+        console.log('变了')
+        // editor.setHtml('<br/>1111')
+      }
+    }
+  },
+  {
     type: 'el-upload',
     value: '',
     label: '上传附件',
     prop: 'upload222',
-    rules: [{
+   /* rules: [{
       required: true,
       trigger: 'blur',
       message: '请上传文件',
-    }],
+    }],*/
     uploadAttrs: {
       action: 'https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15',
       //accept: 'image/png',
@@ -261,6 +295,7 @@ const resetForm = (scope: FormScope) => {
   if (scope?.upload) {
     scope.upload[0]?.clearFiles()
   }
+  editorRef.value.setHtml('<br/>123')
   ElMessage.success('表单项重置！')
 }
 </script>

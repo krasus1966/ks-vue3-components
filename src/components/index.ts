@@ -16,6 +16,7 @@ import form from './form'
 import container from './container'
 import svgIcon from './svgIcon'
 import process from './bpmn'
+import wangEditor from './wang-editor'
 
 import '../styles/base.scss'
 import '../styles/ui.scss'
@@ -37,7 +38,8 @@ const components = [
   svgIcon,
   container,
   process,
-  form
+  form,
+  wangEditor
 ]
 
 const install = (app:App) => {
@@ -64,7 +66,8 @@ export {
   svgIcon,
   container,
   process,
-  form
+  form,
+  wangEditor
 }
 
 export default {

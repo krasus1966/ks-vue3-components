@@ -10,11 +10,13 @@ import {
   UploadUserFile
 } from "element-plus";
 import {Awaitable} from "element-plus/lib/utils";
-import type { UploadInstance } from 'element-plus'
+import type {UploadInstance} from 'element-plus'
+import {IEditorConfig, IToolbarConfig} from "@wangeditor/editor";
 
 export type FormScope = {
   form: FormInstance,
   upload: UploadInstance,
+  component: any,
   model: any
 }
 
@@ -26,7 +28,7 @@ export interface FormOptions {
     'el-radio-group' | 'el-date-picker' | 'el-input' | 'el-input-number' |
     'el-rate' | 'el-select' | 'el-option' | 'el-select-v2' | 'el-slider' |
     'el-switch' | 'el-tooltip' | 'el-time-picker' | 'el-time-select' |
-    'el-transfer' | 'el-upload',
+    'el-transfer' | 'el-upload' | 'wang-editor',
   // 表单项的指值
   value?: any,
   // 表单项的label
@@ -46,7 +48,8 @@ export interface FormOptions {
   children?: FormOptions[],
   // 上传组件
   uploadAttrs?: UploadOptions,
-
+  // wang-editor
+  editorAttrs?: EditorAttrs,
 }
 
 type UploadOptions = {
@@ -77,3 +80,23 @@ type UploadOptions = {
   httpRequest?: (options: UploadRequestOptions) => XMLHttpRequest | Promise<unknown>,
 };
 
+type EditorAttrs = {
+  containerStyle?: CSSProperties,
+  toolbarStyle?: CSSProperties,
+  editorStyle?: CSSProperties,
+
+  toolbarConfig?: Partial<IToolbarConfig>,
+  editorConfig?: Partial<IEditorConfig>,
+  menuConfig?: Partial<IEditorConfig>,
+  getConfig?: () => void,
+  handleTab?: () => void,
+
+  // 生命周期方法 onCreated会在其自身onCreated执行完毕后再执行
+  onCreated?: (editor: any) => void,
+  onChange?: (editor: any) => void,
+  onDestroyed?: (editor: any) => void,
+  onFocus?: (editor: any) => void,
+  onBlur?: (editor: any) => void,
+  customAlert?: (info: any, type: any) => void,
+  customPaste?: (editor: any, event: any, callback: any) => void,
+};
