@@ -187,6 +187,9 @@ const options: FormOptions[] = [
       validator: () => !editorRef?.value.isEmpty()
     }],
     editorAttrs:{
+     /* toolbarConfig: {
+        // excludeKeys:  ["fullScreen"]
+      },*/
       editorConfig:{
         placeholder: '请输入默认值',
         readOnly: false,
@@ -200,6 +203,7 @@ const options: FormOptions[] = [
       },
       onCreated: editor => {
         editorRef.value = editor
+        console.log(editor.getAllMenuKeys())
       }
     }
   },

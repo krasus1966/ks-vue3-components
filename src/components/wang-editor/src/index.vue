@@ -65,6 +65,9 @@ const props = withDefaults(defineProps<EditorOptions>(), {
   editorStyle: {
     height: '300px',
     overflowY: 'hidden',
+  },
+  toolbarConfig: {
+    excludeKeys:  ["fullScreen"]
   }
 })
 const valueHtml = ref(props.modelValue)
