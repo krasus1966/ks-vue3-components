@@ -65,9 +65,6 @@ const props = withDefaults(defineProps<EditorOptions>(), {
   editorStyle: {
     height: '300px',
     overflowY: 'hidden',
-  },
-  toolbarConfig: {
-    excludeKeys:  ["fullScreen"]
   }
 })
 const valueHtml = ref(props.modelValue)
@@ -92,5 +89,18 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-
+.w-e-full-screen-container {
+  bottom: 0!important;
+  display: flex!important;
+  flex-direction: column!important;
+  height: 100%!important;
+  left: 0!important;
+  margin: 0!important;
+  padding: 0!important;
+  position: fixed;
+  right: 0!important;
+  top: 0!important;
+  width: 100%!important;
+  z-index: 1;
+}
 </style>
