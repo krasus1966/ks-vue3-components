@@ -1,20 +1,29 @@
 <template>
-    <div class="pdf-preview">
-        <vue-pdf-embed :source="state.source" :style="scale" class="vue-pdf-embed" :page="state.pageNum"/>
-    </div>
-    <div class="page-tool">
-        <div class="page-tool-item" @click="lastPage">上一页</div>
-        <div class="page-tool-item" @click="nextPage">下一页</div>
-        <div class="page-tool-item">{{ state.pageNum }}/{{ state.numPages }}</div>
-        <div class="page-tool-item" @click="pageZoomOut">放大</div>
-        <div class="page-tool-item" @click="pageZoomIn">缩小</div>
-    </div>
+  <div class="pdf-preview">
+    <vue-pdf-embed :source="state.source" :style="scale" class="vue-pdf-embed" :page="state.pageNum"/>
+  </div>
+  <div class="page-tool">
+    <div class="page-tool-item" @click="lastPage">上一页</div>
+    <div class="page-tool-item" @click="nextPage">下一页</div>
+    <div class="page-tool-item">{{ state.pageNum }}/{{ state.numPages }}</div>
+    <div class="page-tool-item" @click="pageZoomOut">放大</div>
+    <div class="page-tool-item" @click="pageZoomIn">缩小</div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, defineProps, reactive, computed } from 'vue'
+import {onMounted, defineProps, reactive, computed, onUnmounted, watch} from 'vue'
 import VuePdfEmbed from 'vue-pdf-embed'
-import { createLoadingTask } from 'vue3-pdfjs' // 获得总页数
+import {createLoadingTask} from 'vue3-pdfjs' // 获得总页数
+
+
+onMounted(() => {
+  initPage();
+})
+
+onUnmounted(() => {
+
+})
 
 const props = defineProps({
   // 显示的图标
@@ -35,46 +44,57 @@ const state = reactive({
   numPages: 0 // 总页数
 })
 const scale = computed(() => `transform:scale(${state.scale})`)
-function lastPage () {
+
+watch(() => props.url, (value) => {
+  state.source = props.url
+  initPage()
+})
+
+function lastPage() {
   if (state.pageNum > 1) {
     state.pageNum -= 1
   }
 }
-function nextPage () {
+
+function nextPage() {
   if (state.pageNum < state.numPages) {
     state.pageNum += 1
   }
 }
-function pageZoomOut () {
+
+function pageZoomOut() {
   if (state.scale < 2) {
     state.scale += 0.1
   }
 }
-function pageZoomIn () {
+
+function pageZoomIn() {
   if (state.scale > 1) {
     state.scale -= 0.1
   }
 }
-onMounted(() => {
+
+function initPage() {
   const loadingTask = createLoadingTask(state.source)
   loadingTask.promise.then((pdf: { numPages: number }) => {
     state.numPages = pdf.numPages
   })
-})
-
+}
 </script>
 
 <style scoped lang="scss">
 .pdf-preview {
   position: relative;
-  height: 100vh;
+  height: 80vh;
   padding: 20px 0;
   box-sizing: border-box;
   background-color: #e9e9e9;
 }
-.pdf-wrap{
-  overflow-y:auto ;
+
+.pdf-wrap {
+  overflow-y: auto;
 }
+
 .vue-pdf-embed {
   text-align: center;
   width: 515px;
@@ -98,6 +118,7 @@ onMounted(() => {
   margin-left: 50%;
   transform: translateX(-50%);
 }
+
 .page-tool-item {
   padding: 8px 15px;
   padding-left: 10px;

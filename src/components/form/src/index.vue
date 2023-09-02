@@ -55,7 +55,7 @@ import {computed, onBeforeMount, PropType, ref, shallowRef, watch} from "vue";
 import {FormOptions} from "./types/types";
 import cloneDeep from "lodash/cloneDeep";
 import {FormInstance, UploadInstance} from "element-plus";
-import {IDomEditor} from "@wangeditor/core/dist/core/src/editor/interface";
+// import {IDomEditor} from "@wangeditor/core/dist/core/src/editor/interface";
 
 const props = defineProps({
   options: {
@@ -67,7 +67,7 @@ const props = defineProps({
 
 const form = ref<FormInstance | null>()
 const upload = ref<UploadInstance>()
-const editor = ref<IDomEditor>()
+const editor = ref()
 const model = ref<any>()
 const rules = ref<any>()
 

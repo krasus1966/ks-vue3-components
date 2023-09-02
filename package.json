@@ -21,6 +21,7 @@
     "bpmn-js": "^13.2.0",
     "element-plus": "^2.3.9",
     "lodash": "^4.17.21",
+    "mockjs": "^1.1.0",
     "pdfjs-dist": "^2.10.377",
     "vue": "^3.2.25",
     "vue-pdf-embed": "^1.1.6",

@@ -1,20 +1,28 @@
 <template>
-    <component :is="`ks-preview-${type}`" :url="url"></component>
+  <el-scrollbar height="80vh">
+    <template v-for="(item,index) in fileUrl">
+      <component :is="`ks-preview-${fileType}`" :url="item"></component>
+    </template>
+  </el-scrollbar>
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
+import { defineProps, ref, watch} from 'vue'
 
-defineProps<{
-  type: {
-    type: 'pdf-embed' | 'pdf-js' | 'txt',
-    required: true
-  },
-  url: {
-    type: string,
-    required: true
-  }
+const props = defineProps<{
+  type: 'pdf-embed' | 'pdf-js' | 'txt',
+  urls: string[],
 }>()
+const fileType = ref(props.type)
+const fileUrl = ref(props.urls)
+
+watch(() => props.type, (value) => {
+  fileType.value = value
+})
+
+watch(() => props.urls, (value) => {
+  fileUrl.value = value
+})
 
 </script>
 
