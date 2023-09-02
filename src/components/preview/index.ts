@@ -11,7 +11,7 @@ export default {
   install (app:App) {
     app.component('ks-preview', preview)
     app.component('ks-preview-pdf-embed', previewPdfEmbed)
-    app.component('ks-preview-pdf-js', previewPdfJs)
+    app.component('ks-preview-pdf', previewPdfJs)
     app.component('ks-preview-txt', previewTxt)
     app.component('ks-preview-image', previewImage)
     app.component('ks-preview-dialog', previewDialog)
