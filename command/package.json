@@ -1,8 +1,8 @@
 {
   "name": "ks-vue3-component",
-  "version": "0.0.1-alpha-1",
-  "main": "ks-components.umd.js",
-  "module": "ks-components.es.js",
+  "version": "0.0.4-alpha",
+  "main": "index.umd.js",
+  "module": "index.es.js",
   "types": "index.d.ts",
   "author": {
     "name": "krasus1966"

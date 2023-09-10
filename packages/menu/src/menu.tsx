@@ -75,13 +75,15 @@ export default defineComponent({
 
     return () => {
       return (
-        <el-menu
-          class="menu-icon-svg"
-          default-active={props.defaultActive}
-          router={props.router}
-          {...useAttrs()}>
-          {renderMenu(props.data)}
-        </el-menu>
+        <el-scrollbar>
+          <el-menu
+            class="el-menu-style"
+            default-active={props.defaultActive}
+            router={props.router}
+            {...useAttrs()}>
+            {renderMenu(props.data)}
+          </el-menu>
+        </el-scrollbar>
       )
     }
   }

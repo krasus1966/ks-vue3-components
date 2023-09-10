@@ -1,4 +1,8 @@
-.menu-icon-svg {
+.el-menu-style:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+.el-menu-style {
   svg{
     margin-right: 4px;
     width:1em;

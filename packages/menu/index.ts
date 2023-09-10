@@ -6,6 +6,6 @@ import infiniteMenu from './src/menu'
 export default {
   install (app:App) {
     app.component('ks-menu', menu)
-    app.component('ks-infinite-menu', infiniteMenu)
+    .component('ks-infinite-menu', infiniteMenu)
   }
 }

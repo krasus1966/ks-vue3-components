@@ -2,16 +2,18 @@ import chooseIcon from './chooseIcon'
 import chooseArea from './chooseArea'
 import chooseDate from './chooseDate'
 import chooseTime from './chooseTime'
-import chooseCity from './chooseCity'
 import notification from './notification'
 import kList from './list'
 import trend from './trend'
+import table from './table'
 import kMenu from './menu'
-import preview from './preview'
 import progress from './progress'
 import calendar from './calendar'
-import layout from './container'
+import form from './form'
 import svgIcon from './svgIcon'
+import wangEditor from './wang-editor'
+import container from './container'
+import preview from './preview'
 import './styles/base.scss'
 import './styles/ui.scss'
 import { App } from 'vue'
@@ -27,8 +29,12 @@ const components = [
   kMenu,
   progress,
   calendar,
-  layout,
-  svgIcon
+  table,
+  svgIcon,
+  form,
+  container,
+  preview,
+  wangEditor
 ]
 
 const install = (app:App) => {
@@ -47,10 +53,14 @@ export {
   notification,
   kList,
   kMenu,
+  table,
   progress,
   calendar,
-  layout,
-  svgIcon
+  svgIcon,
+  form,
+  container,
+  preview,
+  wangEditor
 }
 
 export default {

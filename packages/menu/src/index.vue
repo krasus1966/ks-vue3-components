@@ -1,37 +1,40 @@
 <template>
-  <el-menu
-      class="el-menu-vertical-demo"
-      :default-active="defaultActive"
-      :router="router"
-      v-bind="$attrs">
-    <template v-for="(item,i) in data" :key="i">
-      <el-menu-item
-          v-if="!item[children] || !item[children].length"
-          :index="item[index]">
-        <ks-svg-icon :icon="item[icon]"/>
-<!--        <component :is="`el-icon-${toLine(item[icon])}`"></component>-->
-        <span>{{ item[name] }}</span>
-      </el-menu-item>
-
-      <el-sub-menu
-          v-if="item[children] && item[children].length"
-          :index="item[index]">
-        <template #title>
-          <ks-svg-icon :icon="item[icon]"/>
-<!--          <component :is="`el-icon-${toLine(item[icon])}`"></component>-->
-          <span>{{ item[name] }}</span>
-        </template>
+  <el-scrollbar>
+    <el-menu
+        class="el-menu-style"
+        :default-active="defaultActive"
+        :router="router"
+        v-bind="$attrs">
+      <template v-for="(item,i) in data" :key="i">
         <el-menu-item
-            v-for="(child,index1) in item[children]"
-            :key="index1"
-            :index="child[index]">
-          <ks-svg-icon :icon="child[icon]"/>
-<!--          <component :is="`el-icon-${toLine(child[icon])}`"></component>-->
-          <span>{{ child[name] }}</span>
+            v-if="!item[children] || !item[children].length"
+            :index="item[index]">
+          <ks-svg-icon :icon="item[icon]"/>
+          <!--        <component :is="`el-icon-${toLine(item[icon])}`"></component>-->
+          <span>{{ item[name] }}</span>
         </el-menu-item>
-      </el-sub-menu>
-    </template>
-  </el-menu>
+
+        <el-sub-menu
+            v-if="item[children] && item[children].length"
+            :index="item[index]">
+          <template #title>
+            <ks-svg-icon :icon="item[icon]"/>
+            <!--          <component :is="`el-icon-${toLine(item[icon])}`"></component>-->
+            <span>{{ item[name] }}</span>
+          </template>
+          <el-menu-item
+              v-for="(child,index1) in item[children]"
+              :key="index1"
+              :index="child[index]">
+            <ks-svg-icon :icon="child[icon]"/>
+            <!--          <component :is="`el-icon-${toLine(child[icon])}`"></component>-->
+            <span>{{ child[name] }}</span>
+          </el-menu-item>
+        </el-sub-menu>
+      </template>
+    </el-menu>
+  </el-scrollbar>
+
 </template>
 
 <script lang="ts" setup>
@@ -80,14 +83,16 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-svg {
-  margin-right: 4px;
-  width:1em;
-  height: 1em;
-}
-
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.el-menu-style:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
 }
+.el-menu-style {
+  svg{
+    margin-right: 4px;
+    width:1em;
+    height: 1em;
+  }
+}
+
 </style>

@@ -13,23 +13,12 @@
           :icon="downIcon"
           :style="{color: !reverseColor ? downIconColor : '#f5222d' }"
           v-else/>
-<!--      <component-->
-<!--          :is="`el-icon-${toLine(upIcon)}`"-->
-<!--          :style="{color: !reverseColor ? upIconColor : '#52c41a' }"-->
-<!--          v-if="type === 'up'">-->
-<!--      </component>-->
-<!--      <component-->
-<!--          :is="`el-icon-${toLine(downIcon)}`"-->
-<!--          :style="{color: !reverseColor ? downIconColor : '#f5222d' }"-->
-<!--          v-else>-->
-<!--      </component>-->
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, useSlots } from 'vue'
-import { toLine } from '../../util'
+import {computed, defineProps, useSlots} from 'vue'
 
 const props = defineProps({
   type: {

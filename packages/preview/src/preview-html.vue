@@ -1,7 +1,7 @@
 <template>
-    <div class="txt">
-        <pre class="previewer-content">{{ content }}</pre>
-    </div>
+  <div class="html" v-html="content">
+
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -22,7 +22,7 @@ async function getFile() {
   console.log('文件内容:' + content.value)
 }
 
-onMounted(()=>{
+onMounted(() => {
   getFile()
 })
 </script>

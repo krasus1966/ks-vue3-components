@@ -20,10 +20,12 @@ const baseConfig = defineConfig({
 
 // rollup配置
 const rollupOptions = {
-  external: ['vue', 'vue-router'],
+  external: ['vue', 'vue-router','vuedraggable','vue-pdf-embed'],
   output: {
     globals: {
-      vue: 'Vue'
+      vue: 'Vue',
+      vuedraggable: 'vuedraggable',
+      'vue-pdf-embed': 'vue-pdf-embed',
     }
   }
 }
@@ -36,8 +38,8 @@ const buildAll = async () => {
       rollupOptions,
       lib: {
         entry: path.resolve(entryDir, 'index.ts'),
-        name: 'ks-components',
-        fileName: 'ks-components',
+        name: 'index',
+        fileName: 'index',
         formats: ['es', 'umd']
       },
       outDir: outputDir
