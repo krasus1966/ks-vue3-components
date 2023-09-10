@@ -22,7 +22,7 @@
               <el-button size="small" icon="el-icon-zoomout" @click="zoomViewport(false)" />
             </el-tooltip>
             <el-tooltip effect="dark" content="后退" placement="bottom">
-              <el-button size="small" icon="el-icon-back" @click="modeler.get('commandStack').undo()" />
+              <el-button size="small" icon="el-icon-back" @click="modeler.get<CommandManager>('commandStack').undo()" />
             </el-tooltip>
             <el-tooltip effect="dark" content="前进" placement="bottom">
               <el-button size="small" icon="el-icon-right" @click="modeler.get('commandStack').redo()" />
@@ -60,6 +60,8 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 import {ElMessage} from "element-plus";
+import {Canvas} from "bpmn-js/lib/features/context-pad/ContextPadProvider";
+import {CommandManager} from "pdfjs-dist/types/src/display/editor/tools";
 
 
 const props = defineProps({
@@ -84,9 +86,10 @@ const props = defineProps({
     default: false
   }
 })
+
 const flowContainersRef = ref()
 const canvasRef = ref()
-const modeler = ref<Modeler>()
+let modeler = reactive<Modeler>(new Modeler())
 
 const xmlRef = ref<string>('')
 const zoom = ref<number>()
@@ -105,7 +108,7 @@ const createNewDiagram = async (data:string) =>{
     return str.replace(/</g, '&lt;')
   })
   try {
-    await modeler.value.importXML(data)
+    await modeler.importXML(data)
     adjustPalette()
     fitViewport()
   } catch (err : any) {
@@ -116,14 +119,14 @@ const createNewDiagram = async (data:string) =>{
 
 // 让图能自适应屏幕
 const fitViewport = () => {
-  zoom.value = modeler.value.get('canvas').zoom('fit-viewport')
+  zoom.value = modeler.get<Canvas>('canvas').zoom('fit-viewport')
   const bbox = flowContainersRef.value.querySelector('.flow-containers .viewport').getBBox()
-  const currentViewbox = modeler.value.get('canvas').viewbox()
+  const currentViewbox = modeler.get<Canvas>('canvas').viewbox()
   const elementMid = {
     x: bbox.x + bbox.width / 2 - 65,
     y: bbox.y + bbox.height / 2
   }
-  modeler.value.get<Document>('canvas').viewbox({
+  modeler.get<Canvas>('canvas').viewbox({
     x: elementMid.x - currentViewbox.width / 2,
     y: elementMid.y - currentViewbox.height / 2,
     width: currentViewbox.width,
@@ -134,9 +137,9 @@ const fitViewport = () => {
 
 // 放大缩小
 const zoomViewport = (zoomIn = true) => {
-  zoom.value = modeler.value.get('canvas').zoom()
-  zoom.value += (zoomIn ? 0.1 : -0.1)
-  modeler.value.get('canvas').zoom(zoom.value)
+  zoom.value = modeler.get<Canvas>('canvas').zoom()
+  zoom.value! += (zoomIn ? 0.1 : -0.1)
+  modeler.get<Canvas>('canvas').zoom(zoom.value)
 }
 // 调整左侧工具栏排版
 const adjustPalette = () => {
@@ -200,14 +203,14 @@ const getProcess = () => {
   }
 }
 const getProcessElement = () => {
-  const rootElements = modeler.value.getDefinitions().rootElements
+  const rootElements = modeler.getDefinitions().rootElements
   for (let i = 0; i < rootElements.length; i++) {
     if (rootElements[i].$type === 'bpmn:Process') return rootElements[i]
   }
 }
 const saveXML = async (download = false) => {
   try {
-    const { xml } = await modeler.value.saveXML({ format: true })
+    const { xml } = await modeler.saveXML({ format: true })
     if (download) {
       downloadFile(`${getProcessElement().name}.bpmn20.xml`, xml, 'application/xml')
     }
@@ -219,7 +222,7 @@ const saveXML = async (download = false) => {
 
 const saveImg = async (type = 'svg', download = false) => {
   try {
-    const { svg } = await modeler.value.saveSVG({ format: true })
+    const { svg } = await modeler.saveSVG()
     if (download) {
       downloadFile(getProcessElement().name, svg, 'image/svg+xml')
     }
@@ -259,7 +262,7 @@ const downloadFile = (filename: string, data: BlobPart, type: any) => {
 const emits = defineEmits(['save'])
 
 onMounted(()=>{
-  modeler.value = new Modeler({
+  modeler = new Modeler({
     container: canvasRef.value,
     additionalModules: [
       {

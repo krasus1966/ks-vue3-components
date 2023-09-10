@@ -18,7 +18,7 @@
     "@typescript-eslint/parser": "^5.7.0",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-vue": "^5.1.12",
-    "bpmn-js": "^13.2.0",
+    "bpmn-js": "^14.0.0",
     "element-plus": "^2.3.9",
     "lodash": "^4.17.21",
     "mockjs": "^1.1.0",
