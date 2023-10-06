@@ -5,10 +5,10 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons'
 import { toLine } from './util'
-import BaseComponent from './components'
-// import BaseComponent from '../lib'
-// import '../lib/style.css'
-import './mock'
+// import BaseComponent from './components'
+import BaseComponent from '../lib/index.es.js'
+import '../lib/style.css'
+// import './mock'
 
 const app = createApp(App)
 

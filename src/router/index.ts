@@ -53,6 +53,9 @@ const routes: RouteRecordRaw[] = [
         path: '/wang-editor',
         component: () => import('../views/wang-editor/index.vue')
       },{
+        path: '/only-office',
+        component: () => import('../views/onlyOffice/index.vue')
+      },{
         path: '/bpmn',
         redirect: '/bpmn/index',
         children: [

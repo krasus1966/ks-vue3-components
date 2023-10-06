@@ -14,6 +14,7 @@ import svgIcon from './svgIcon'
 import wangEditor from './wang-editor'
 import container from './container'
 import preview from './preview'
+import onlyOffice from './onlyOffice'
 import './styles/base.scss'
 import './styles/ui.scss'
 import { App } from 'vue'
@@ -34,7 +35,8 @@ const components = [
   form,
   container,
   preview,
-  wangEditor
+  wangEditor,
+  onlyOffice
 ]
 
 const install = (app:App) => {
@@ -60,7 +62,8 @@ export {
   form,
   container,
   preview,
-  wangEditor
+  wangEditor,
+  onlyOffice
 }
 
 export default {

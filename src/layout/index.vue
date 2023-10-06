@@ -63,6 +63,10 @@ const data = [
     name: '流程管理',
     index: '/bpmn',
     icon: 'darrowright'
+  }, {
+    name: 'only-office',
+    index: '/only-office',
+    icon: 'darrowright'
   }
 ]
 </script>

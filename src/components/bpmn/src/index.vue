@@ -22,7 +22,7 @@
               <el-button size="small" icon="el-icon-zoomout" @click="zoomViewport(false)" />
             </el-tooltip>
             <el-tooltip effect="dark" content="后退" placement="bottom">
-              <el-button size="small" icon="el-icon-back" @click="modeler.get<CommandManager>('commandStack').undo()" />
+              <el-button size="small" icon="el-icon-back" @click="modeler.get('commandStack').undo()" />
             </el-tooltip>
             <el-tooltip effect="dark" content="前进" placement="bottom">
               <el-button size="small" icon="el-icon-right" @click="modeler.get('commandStack').redo()" />
@@ -61,7 +61,6 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 import {ElMessage} from "element-plus";
 import {Canvas} from "bpmn-js/lib/features/context-pad/ContextPadProvider";
-import {CommandManager} from "pdfjs-dist/types/src/display/editor/tools";
 
 
 const props = defineProps({
